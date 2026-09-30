@@ -1,0 +1,15 @@
+
+The command exited with code 0.
+Output:
+
+FullName                                                                                    
+--------                                                                                    
+C:\Users\DELL\OneDrive\Desktop\student survival                                             
+C:\Users\DELL\OneDrive\Desktop\student survival\student-survival-app                        
+C:\Users\DELL\OneDrive\Desktop\student survival\student-survival-app\student-life-logo.svg  
+C:\Users\DELL\OneDrive\Documents\student survival                                           
+C:\Users\DELL\OneDrive\Documents\student survival\student-survival-app                      
+C:\Users\DELL\OneDrive\Documents\student survival\student-survival-app\student-life-logo.svg
+
+
+

@@ -1,0 +1,10 @@
+
+The command exited with code 0.
+Output:
+
+Name                LastWriteTime      
+----                -------------      
+Antigravity-x64.exe 30-09-2026 10:23:26
+
+
+

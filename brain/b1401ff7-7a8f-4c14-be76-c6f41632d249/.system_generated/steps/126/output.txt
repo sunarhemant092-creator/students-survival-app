@@ -1,0 +1,15 @@
+
+The command exited with code 0.
+Output:
+
+Name                  Length LastWriteTime      
+----                  ------ -------------      
+assets                       30-09-2026 11:05:10
+app.js                112258 30-09-2026 11:25:12
+index.html            86311  30-09-2026 11:23:52
+README.md             10870  30-09-2026 11:05:30
+student-life-logo.svg 10837  30-09-2026 10:44:33
+styles.css            7021   30-09-2026 11:22:29
+
+
+

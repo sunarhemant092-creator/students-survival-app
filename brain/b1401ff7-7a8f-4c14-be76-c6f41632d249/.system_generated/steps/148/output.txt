@@ -1,0 +1,36 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\styles.css. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -151,6 +151,30 @@
+   }
+ }
+ 
++/* ========================================================
++   AUTH TABS & DEMO ACCOUNT PILLS
++======================================================== */
++.auth-tab-btn {
++  transition: all 0.2s ease;
++  color: #94a3b8;
++}
++
++.auth-tab-btn.active {
++  background: rgba(99, 102, 241, 0.9) !important;
++  color: #ffffff !important;
++  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
++}
++
++.demo-account-pill {
++  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
++}
++
++.demo-account-pill:hover {
++  transform: translateY(-2px);
++  border-color: rgba(129, 140, 248, 0.5) !important;
++  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
++}
++
+ .timetable-day-btn {
+   background: rgba(255, 255, 255, 0.06);
+   color: #cbd5e1;
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

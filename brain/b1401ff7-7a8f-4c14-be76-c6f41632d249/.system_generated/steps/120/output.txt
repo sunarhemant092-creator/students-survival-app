@@ -1,0 +1,38 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\app.js. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -323,6 +323,12 @@
+     selectedTimetableDay: 'Wednesday',
+     assignmentFilter: 'all',
+     selectedBrainStatus: 'zombie',
++    reminderIntervalMinutes: 3,
++    notifBarVisible: true,
++    notifCycleActive: true,
++    desktopNotifEnabled: false,
++    currentNotifIndex: 0,
++    activeAlerts: [],
+   };
+ 
+   function loadState() {
+@@ -335,6 +335,9 @@
+         if (parsed.canteen) state.canteen = { ...DEFAULT_CANTEEN, ...parsed.canteen };
+         if (parsed.timetable && parsed.timetable.length) state.timetable = parsed.timetable;
+         if (parsed.exams && parsed.exams.length) state.exams = parsed.exams;
++        if (parsed.reminderIntervalMinutes) state.reminderIntervalMinutes = parsed.reminderIntervalMinutes;
++        if (typeof parsed.notifBarVisible === 'boolean') state.notifBarVisible = parsed.notifBarVisible;
++        if (typeof parsed.desktopNotifEnabled === 'boolean') state.desktopNotifEnabled = parsed.desktopNotifEnabled;
+       }
+     } catch (err) {
+       console.error('Error loading state from localStorage:', err);
+@@ -349,6 +349,9 @@
+         canteen: state.canteen,
+         timetable: state.timetable,
+         exams: state.exams,
++        reminderIntervalMinutes: state.reminderIntervalMinutes,
++        notifBarVisible: state.notifBarVisible,
++        desktopNotifEnabled: state.desktopNotifEnabled,
+       }));
+     } catch (err) {
+       console.error('Error saving state to localStorage:', err);
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

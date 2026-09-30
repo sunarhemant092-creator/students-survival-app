@@ -1,0 +1,11 @@
+
+The command exited with code 0.
+Output:
+
+FullName                                                                                                            Len
+                                                                                                                    gth
+--------                                                                                                            ---
+C:\Users\DELL\.gemini\antigravity\brain\b1401ff7-7a8f-4c14-be76-c6f41632d249\.user_uploaded\media_1790746104770.jpg 031
+
+
+

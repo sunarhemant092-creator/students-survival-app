@@ -1,0 +1,131 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -1595,6 +1595,125 @@
+         </button>
+       </div>
+ 
++  <!-- ======================================================== -->
++  <!-- 📋 MODAL: DEMO STUDENT CREDENTIALS CHEAT SHEET -->
++  <!-- ======================================================== -->
++  <div id="modal-demo-credentials" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
++    <div class="w-full max-w-xl glass-card rounded-3xl p-5 sm:p-6 border-2 border-indigo-400/40 text-white shadow-2xl animate-fade-in max-h-[90vh] flex flex-col">
++      <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
++        <div class="flex items-center gap-2">
++          <span class="text-2xl p-2 rounded-xl bg-indigo-500/20 text-indigo-300">📋</span>
++          <div>
++            <h3 class="text-base sm:text-lg font-black font-heading text-white">Indian Student Demo Logins</h3>
++            <p class="text-xs text-slate-400">Pre-configured accounts for testing & college presentations</p>
++          </div>
++        </div>
++        <button onclick="App.closeModal('modal-demo-credentials')" class="p-1.5 rounded-lg text-slate-400 hover:text-white text-lg">&times;</button>
++      </div>
++
++      <div class="flex-1 overflow-y-auto space-y-3 pr-1" id="demo-credentials-list">
++        <!-- Rendered by JS or static list -->
++        <!-- Aman Sharma -->
++        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-indigo-400/40 transition">
++          <div class="space-y-1">
++            <div class="flex items-center gap-2">
++              <span class="font-bold text-white text-sm">Aman Sharma</span>
++              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">80% Attendance 🟢</span>
++            </div>
++            <div class="text-[11px] text-slate-400">🏛️ Delhi Technological University (DTU) • CSE Sem 4</div>
++            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
++              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">aman_sharma</code></span>
++              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">aman.sharma@college.edu</code></span>
++              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">password123</code></span>
++            </div>
++          </div>
++          <button onclick="App.quickDemoLogin('aman_sharma'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
++            <span>⚡ 1-Click Login</span>
++          </button>
++        </div>
++
++        <!-- Priya Patel -->
++        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-rose-400/40 transition">
++          <div class="space-y-1">
++            <div class="flex items-center gap-2">
++              <span class="font-bold text-white text-sm">Priya Patel</span>
++              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">88% Attendance 🟢</span>
++            </div>
++            <div class="text-[11px] text-slate-400">🏛️ National Institute of Technology (NIT Trichy) • IT Sem 4</div>
++            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
++              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">priya_patel</code></span>
++              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">priya.patel@nit.ac.in</code></span>
++              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">priyapassword</code></span>
++            </div>
++          </div>
++          <button onclick="App.quickDemoLogin('priya_patel'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
++            <span>⚡ 1-Click Login</span>
++          </button>
++        </div>
++
++        <!-- Rahul Verma -->
++        <div class="p-3.5 rounded-2xl bg-rose-950/20 border border-rose-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-rose-400 transition">
++          <div class="space-y-1">
++            <div class="flex items-center gap-2">
++              <span class="font-bold text-white text-sm">Rahul Verma</span>
++              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-rose-500/30 text-rose-200 border border-rose-500/50 animate-pulse">65% Shortage 🔴</span>
++            </div>
++            <div class="text-[11px] text-slate-400">🏛️ Vellore Institute of Technology (VIT) • ECE Sem 4</div>
++            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
++              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">rahul_v</code></span>
++              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">rahul.verma@vit.edu.in</code></span>
++              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">rahulpass2026</code></span>
++            </div>
++          </div>
++          <button onclick="App.quickDemoLogin('rahul_v'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
++            <span>⚡ 1-Click Login</span>
++          </button>
++        </div>
++
++        <!-- Ananya Iyer -->
++        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-400/40 transition">
++          <div class="space-y-1">
++            <div class="flex items-center gap-2">
++              <span class="font-bold text-white text-sm">Ananya Iyer</span>
++              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">92% Topper ⭐</span>
++            </div>
++            <div class="text-[11px] text-slate-400">🏛️ BITS Pilani • AI & Data Science Sem 6</div>
++            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
++              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">ananya_iyer</code></span>
++              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">ananya.iyer@bits-pilani.ac.in</code></span>
++              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">ananyapass</code></span>
++            </div>
++          </div>
++          <button onclick="App.quickDemoLogin('ananya_iyer'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
++            <span>⚡ 1-Click Login</span>
++          </button>
++        </div>
++
++        <!-- Rohan Gupta -->
++        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-cyan-400/40 transition">
++          <div class="space-y-1">
++            <div class="flex items-center gap-2">
++              <span class="font-bold text-white text-sm">Rohan Gupta</span>
++              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/30">72% Warning 🟡</span>
++            </div>
++            <div class="text-[11px] text-slate-400">🏛️ Indian Institute of Technology (IIT Delhi) • CSE Sem 4</div>
++            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
++              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">rohan_gupta</code></span>
++              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">rohan.gupta@iitd.ac.in</code></span>
++              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">rohanpass</code></span>
++            </div>
++          </div>
++          <button onclick="App.quickDemoLogin('rohan_gupta'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
++            <span>⚡ 1-Click Login</span>
++          </button>
++        </div>
++      </div>
++
++      <div class="pt-3 border-t border-white/10 mt-3 flex justify-end">
++        <button onclick="App.closeModal('modal-demo-credentials')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition">
++          Close Cheat Sheet
++        </button>
++      </div>
+     </div>
+   </div>
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

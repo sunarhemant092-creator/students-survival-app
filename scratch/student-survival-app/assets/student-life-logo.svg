@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 550" width="100%" height="100%">
+  <defs>
+    <!-- Wooden desk gradient -->
+    <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b4513"/>
+      <stop offset="40%" stop-color="#a0522d"/>
+      <stop offset="70%" stop-color="#cd853f"/>
+      <stop offset="100%" stop-color="#6b3410"/>
+    </linearGradient>
+
+    <!-- Notebook paper gradient -->
+    <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdfbf7"/>
+      <stop offset="60%" stop-color="#f7f1e5"/>
+      <stop offset="100%" stop-color="#eedcbe"/>
+    </linearGradient>
+
+    <!-- Teacher gradient -->
+    <linearGradient id="teacherGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff8e7"/>
+      <stop offset="100%" stop-color="#ebd8b5"/>
+    </linearGradient>
+
+    <!-- Burden gradient -->
+    <linearGradient id="burdenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fcf6ec"/>
+      <stop offset="100%" stop-color="#e2cfb4"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="3" dy="5" stdDeviation="5" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Desk Background -->
+  <rect width="400" height="550" fill="url(#woodGrad)"/>
+  
+  <!-- Desk Accents: Eraser top left -->
+  <g transform="translate(100, 10) rotate(-15)">
+    <rect x="0" y="0" width="80" height="40" rx="6" fill="#fdfbf7" stroke="#333" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="30" height="40" rx="6" fill="#3b82f6" opacity="0.8"/>
+  </g>
+
+  <!-- Pencils top right -->
+  <g transform="translate(260, 5) rotate(35)">
+    <polygon points="0,10 60,10 75,15 60,20 0,20" fill="#f59e0b" stroke="#333" stroke-width="1.5"/>
+    <polygon points="60,10 75,15 60,20" fill="#d97706"/>
+    <polygon points="70,13.5 75,15 70,16.5" fill="#1e293b"/>
+  </g>
+  <g transform="translate(300, 20) rotate(42)">
+    <polygon points="0,8 50,8 65,12 50,16 0,16" fill="#3b82f6" stroke="#333" stroke-width="1.5"/>
+    <polygon points="50,8 65,12 50,16" fill="#1d4ed8"/>
+    <polygon points="60,11 65,12 60,13" fill="#1e293b"/>
+  </g>
+
+  <!-- Wooden Ruler right -->
+  <g transform="translate(350, 40) rotate(15)">
+    <rect x="0" y="0" width="40" height="180" fill="#d4a373" stroke="#5c3d1e" stroke-width="2" filter="url(#cardShadow)"/>
+    <line x1="0" y1="20" x2="15" y2="20" stroke="#5c3d1e" stroke-width="1.5"/>
+    <line x1="0" y1="40" x2="25" y2="40" stroke="#5c3d1e" stroke-width="2"/>
+    <line x1="0" y1="60" x2="15" y2="60" stroke="#5c3d1e" stroke-width="1.5"/>
+    <line x1="0" y1="80" x2="25" y2="80" stroke="#5c3d1e" stroke-width="2"/>
+    <line x1="0" y1="100" x2="15" y2="100" stroke="#5c3d1e" stroke-width="1.5"/>
+    <line x1="0" y1="120" x2="25" y2="120" stroke="#5c3d1e" stroke-width="2"/>
+    <line x1="0" y1="140" x2="15" y2="140" stroke="#5c3d1e" stroke-width="1.5"/>
+    <line x1="0" y1="160" x2="25" y2="160" stroke="#5c3d1e" stroke-width="2"/>
+  </g>
+
+  <!-- Pencil right bottom -->
+  <g transform="translate(380, 220) rotate(85)">
+    <polygon points="0,5 50,5 65,8 50,11 0,11" fill="#ef4444" stroke="#333" stroke-width="1"/>
+    <polygon points="58,7 65,8 58,9" fill="#1e293b"/>
+  </g>
+
+  <!-- MAIN NOTEBOOK -->
+  <g filter="url(#cardShadow)">
+    <rect x="25" y="65" width="345" height="465" rx="16" fill="url(#paperGrad)" stroke="#4a3728" stroke-width="2"/>
+  </g>
+
+  <!-- Notebook Spiral Rings -->
+  <g fill="#2b2d42" stroke="#111" stroke-width="1">
+    <ellipse cx="25" cy="85" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="115" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="145" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="175" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="205" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="235" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="265" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="295" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="325" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="355" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="385" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="415" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="445" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="475" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+    <ellipse cx="25" cy="505" rx="7" ry="12" fill="none" stroke="#222" stroke-width="3"/>
+  </g>
+
+  <!-- TITLE: LIFE OF A STUDENT -->
+  <text x="200" y="132" font-family="'Outfit', 'Impact', sans-serif" font-weight="900" font-size="28" fill="#102a43" text-anchor="middle" letter-spacing="1">
+    LIFE OF A STUDENT
+  </text>
+
+  <!-- ================= CARTOON ARTWORK ================= -->
+
+  <!-- 1. FLAT CRUSHED STUDENT AT BOTTOM -->
+  <g id="student-layer">
+    <!-- Crushed Head -->
+    <path d="M120 500 C110 470, 140 445, 175 450 C200 455, 205 485, 195 505 C170 515, 135 515, 120 500 Z" fill="#ffd1a9" stroke="#222" stroke-width="2.5"/>
+    <!-- Student Hair -->
+    <path d="M125 470 C130 455, 155 450, 175 450 C185 450, 192 460, 190 472 C180 465, 160 465, 140 472 Z" fill="#2d2217"/>
+    <!-- Student Eyes (squinting / in pain) -->
+    <path d="M142 478 Q148 472 154 478" fill="none" stroke="#222" stroke-width="2.5"/>
+    <path d="M165 478 Q171 472 177 478" fill="none" stroke="#222" stroke-width="2.5"/>
+    <!-- Big funny nose -->
+    <ellipse cx="150" cy="485" rx="8" ry="6" fill="#fca5a5" stroke="#222" stroke-width="2"/>
+    <!-- Grumpy/squashed mouth -->
+    <path d="M145 498 Q160 502 175 496" fill="none" stroke="#222" stroke-width="2.5"/>
+    <!-- Sweat drop -->
+    <path d="M185 465 C185 460, 192 455, 194 463 C196 470, 185 472, 185 465 Z" fill="#38bdf8"/>
+    <!-- Flat Arm reaching out -->
+    <path d="M190 495 C220 500, 260 505, 280 500 C285 498, 290 502, 288 506 C285 512, 260 515, 220 512 Z" fill="#ffd1a9" stroke="#222" stroke-width="2"/>
+    <!-- Hand fingers -->
+    <path d="M280 498 Q288 497 292 501 Q288 505 282 506" fill="#ffd1a9" stroke="#222" stroke-width="1.5"/>
+
+    <!-- "Student" label -->
+    <text x="215" y="478" font-family="'Outfit', sans-serif" font-weight="800" font-size="14" fill="#0f172a">Student</text>
+  </g>
+
+  <!-- 2. HEAVY BURDEN PILE (Project, Assignments, Quiz, Mid) -->
+
+  <!-- Heavy Project Sack -->
+  <g id="project-sack">
+    <ellipse cx="160" cy="405" rx="75" ry="50" fill="url(#burdenGrad)" stroke="#222" stroke-width="2.5"/>
+    <path d="M100 375 Q160 360 220 375" fill="none" stroke="#c4a47c" stroke-width="2" stroke-dasharray="4,4"/>
+    <text x="155" y="412" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#0f172a">Project</text>
+  </g>
+
+  <!-- Heavy Weight Cylinder: Assignments -->
+  <g id="assignments-weight">
+    <rect x="205" y="380" width="125" height="48" rx="10" fill="url(#burdenGrad)" stroke="#222" stroke-width="2.5"/>
+    <!-- Metal piston ends -->
+    <ellipse cx="205" cy="404" rx="8" ry="24" fill="#cbd5e1" stroke="#222" stroke-width="2"/>
+    <line x1="185" y1="395" x2="205" y2="395" stroke="#222" stroke-width="4"/>
+    <line x1="185" y1="404" x2="205" y2="404" stroke="#222" stroke-width="4"/>
+    <line x1="185" y1="413" x2="205" y2="413" stroke="#222" stroke-width="4"/>
+    <text x="268" y="410" font-family="'Outfit', sans-serif" font-weight="800" font-size="14" fill="#0f172a" text-anchor="middle">Assignments</text>
+  </g>
+
+  <!-- Big Brick: Quiz -->
+  <g id="quiz-block">
+    <polygon points="180,310 320,300 330,375 190,385" fill="url(#burdenGrad)" stroke="#222" stroke-width="2.5"/>
+    <text x="255" y="348" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#0f172a" text-anchor="middle">Quiz</text>
+  </g>
+
+  <!-- Big Cone/Block: Mid -->
+  <g id="mid-block">
+    <polygon points="260,250 335,245 350,300 275,310" fill="url(#burdenGrad)" stroke="#222" stroke-width="2.5"/>
+    <text x="305" y="285" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#0f172a" text-anchor="middle">Mid</text>
+  </g>
+
+  <!-- Middle Sack: Teacher's cushion -->
+  <ellipse cx="180" cy="315" rx="75" ry="45" fill="url(#burdenGrad)" stroke="#222" stroke-width="2.5"/>
+
+  <!-- 3. SMILING TRIUMPHANT TEACHER SITTING ON TOP -->
+  <g id="teacher-figure">
+    <!-- Teacher Big Round Belly -->
+    <ellipse cx="180" cy="240" rx="55" ry="50" fill="url(#teacherGrad)" stroke="#222" stroke-width="2.5"/>
+    <text x="180" y="255" font-family="'Outfit', sans-serif" font-weight="900" font-size="16" fill="#0f172a" text-anchor="middle">Teacher</text>
+
+    <!-- Teacher legs dangling comfortably -->
+    <path d="M150 280 L160 330 L195 330" fill="none" stroke="#5c3d1e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="202" cy="330" rx="9" ry="6" fill="#1e293b"/> <!-- Shoe -->
+
+    <path d="M205 280 L235 305 L265 315" fill="none" stroke="#5c3d1e" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="272" cy="317" rx="9" ry="6" fill="#1e293b"/> <!-- Shoe -->
+
+    <!-- Teacher folded arms -->
+    <ellipse cx="180" cy="215" rx="28" ry="14" fill="#ffd1a9" stroke="#222" stroke-width="2.5"/>
+    <path d="M165 215 Q180 225 195 215" fill="none" stroke="#222" stroke-width="2"/>
+
+    <!-- Teacher Happy Head -->
+    <ellipse cx="180" cy="170" rx="28" ry="26" fill="#ffd1a9" stroke="#222" stroke-width="2.5"/>
+    <!-- Smiling Eyes -->
+    <path d="M168 165 Q174 158 180 165" fill="none" stroke="#222" stroke-width="2.5"/>
+    <path d="M188 165 Q194 158 200 165" fill="none" stroke="#222" stroke-width="2.5"/>
+    <!-- Big Happy Smile -->
+    <path d="M168 178 Q182 195 198 178" fill="none" stroke="#222" stroke-width="2.5"/>
+    <!-- Rosy Cheeks -->
+    <circle cx="164" cy="174" r="4" fill="#f87171" opacity="0.6"/>
+    <circle cx="202" cy="174" r="4" fill="#f87171" opacity="0.6"/>
+
+    <!-- Teacher Graduation Mortarboard / Hat -->
+    <polygon points="180,120 220,135 180,150 140,135" fill="#1e293b" stroke="#111" stroke-width="2"/>
+    <rect x="165" y="142" width="30" height="12" fill="#1e293b" stroke="#111" stroke-width="1"/>
+    <!-- Tassel hanging -->
+    <line x1="180" y1="135" x2="145" y2="155" stroke="#f59e0b" stroke-width="2"/>
+    <circle cx="145" cy="158" r="3" fill="#f59e0b"/>
+  </g>
+
+</svg>

@@ -1,0 +1,11 @@
+
+The command exited with code 0.
+Output:
+
+FullName                                                                                          Length
+--------                                                                                          ------
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\assets\life-of-a-student.jpg        69031
+C:\Users\DELL\OneDrive\Desktop\student survival\student-survival-app\assets\life-of-a-student.jpg  69031
+
+
+

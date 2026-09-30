@@ -1,0 +1,18 @@
+
+The command exited with code 0.
+Output:
+
+
+    Directory: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+d-----        30-09-2026     11:05                assets                                                               
+-a----        30-09-2026     11:44         123005 app.js                                                               
+-a----        30-09-2026     11:41         106791 index.html                                                           
+-a----        30-09-2026     11:05          10870 README.md                                                            
+-a----        30-09-2026     11:40           7633 styles.css                                                           
+
+
+

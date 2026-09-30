@@ -1,0 +1,16 @@
+
+The command exited with code 0.
+Output:
+
+
+    Directory: C:\Users\DELL\OneDrive\Desktop\student survival\student-survival-app\assets
+
+
+Mode                 LastWriteTime         Length Name                                                                 
+----                 -------------         ------ ----                                                                 
+-a---l        30-09-2026     10:58          69031 life-of-a-student.jpg                                                
+-a---l        30-09-2026     10:58          69031 logo.jpg                                                             
+-a---l        30-09-2026     10:44          10837 student-life-logo.svg                                                
+
+
+

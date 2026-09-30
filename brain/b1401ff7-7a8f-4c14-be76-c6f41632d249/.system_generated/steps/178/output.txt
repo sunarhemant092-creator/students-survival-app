@@ -1,0 +1,269 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\app.js. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -572,7 +572,7 @@
+   }
+ 
+   // ==========================================
+-  // 6. AUTHENTICATION & LOGIN
++  // 6. AUTHENTICATION & LOGIN (SIGN IN, CREATE ACCOUNT, DEMO LOGINS)
+   // ==========================================
+   function showAuthScreen() {
+     const authScreen = document.getElementById('auth-screen');
+@@ -580,13 +580,35 @@
+     if (mainApp) mainApp.classList.add('hidden');
+ 
+     // Pre-populate if saved in state
+-    const nameInput = document.getElementById('login-name');
+-    const emailInput = document.getElementById('login-email');
+-    const rememberCheckbox = document.getElementById('login-remember');
+-
+-    if (nameInput) nameInput.value = state.student.name || 'Aarav Sharma';
+-    if (emailInput) emailInput.value = state.student.email || 'aarav.sharma@college.edu';
++    const idInput = document.getElementById('login-identifier');
++    const passInput = document.getElementById('login-password');
++    const rememberCheckbox = document.getElementById('login-remember');
++
++    if (idInput) idInput.value = state.student.username || state.student.email || 'aman_sharma';
++    if (passInput) passInput.value = state.student.password || 'password123';
+     if (rememberCheckbox) rememberCheckbox.checked = state.student.rememberMe !== false;
++
++    switchAuthTab('signin');
++  }
++
++  function switchAuthTab(tab) {
++    playSound('click');
++    const tabSignIn = document.getElementById('tab-auth-signin');
++    const tabSignUp = document.getElementById('tab-auth-signup');
++    const panelSignIn = document.getElementById('auth-panel-signin');
++    const panelSignUp = document.getElementById('auth-panel-signup');
++
++    if (tab === 'signin') {
++      if (tabSignIn) tabSignIn.classList.add('active');
++      if (tabSignUp) tabSignUp.classList.remove('active');
++      if (panelSignIn) panelSignIn.classList.remove('hidden');
++      if (panelSignUp) panelSignUp.classList.add('hidden');
++    } else {
++      if (tabSignUp) tabSignUp.classList.add('active');
++      if (tabSignIn) tabSignIn.classList.remove('active');
++      if (panelSignUp) panelSignUp.classList.remove('hidden');
++      if (panelSignIn) panelSignIn.classList.add('hidden');
++    }
+   }
+ 
+   function handleLogin(event) {
+@@ -593,23 +593,67 @@
+     playSound('click');
+ 
+-    const nameInput = document.getElementById('login-name');
+-    const emailInput = document.getElementById('login-email');
+-    const rememberCheckbox = document.getElementById('login-remember');
+-
+-    const name = nameInput ? nameInput.value.trim() : 'Student';
+-    const email = emailInput ? emailInput.value.trim() : 'student@college.edu';
++    const idInput = document.getElementById('login-identifier');
++    const passInput = document.getElementById('login-password');
++    const rememberCheckbox = document.getElementById('login-remember');
++
++    const identifier = idInput ? idInput.value.trim().toLowerCase() : '';
++    const password = passInput ? passInput.value.trim() : '';
+     const remember = rememberCheckbox ? rememberCheckbox.checked : true;
+ 
+-    state.student.name = name;
+-    state.student.email = email;
+-    state.student.rememberMe = remember;
+-    state.student.isLoggedIn = true;
+-
+-    saveState();
+-    playSound('success');
+-
+-    // Show funny welcome message
+-    showToast(`Welcome back, ${name}! 👋 Ready to survive another day? 🔥`, 'success');
++    if (!identifier) {
++      showToast('Please enter your username or college email! 👤', 'warning');
++      return;
++    }
++
++    // Check demo accounts first
++    const demoFound = DEFAULT_INDIAN_STUDENTS.find(s => 
++      s.username.toLowerCase() === identifier || s.email.toLowerCase() === identifier
++    );
++
++    // Check registered accounts
++    const registeredFound = (state.registeredUsers || []).find(u => 
++      (u.username && u.username.toLowerCase() === identifier) || (u.email && u.email.toLowerCase() === identifier)
++    );
++
++    const user = demoFound || registeredFound;
++
++    if (user) {
++      state.student = {
++        ...state.student,
++        name: user.name,
++        username: user.username,
++        email: user.email,
++        password: user.password,
++        college: user.college || state.student.college,
++        branch: user.branch || state.student.branch,
++        semester: user.semester || state.student.semester,
++        target: user.target || 75,
++        isLoggedIn: true,
++        rememberMe: remember,
++      };
++
++      if (user.subjects && user.subjects.length) {
++        state.subjects = JSON.parse(JSON.stringify(user.subjects));
++      }
++    } else {
++      // Allow custom guest login with typed identifier
++      const cleanName = identifier.includes('@') ? identifier.split('@')[0] : identifier;
++      const formattedName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
++      state.student = {
++        ...state.student,
++        name: formattedName,
++        username: identifier,
++        email: identifier.includes('@') ? identifier : `${identifier}@college.edu`,
++        password: password || 'pass123',
++        isLoggedIn: true,
++        rememberMe: remember,
++      };
++    }
++
++    saveState();
++    playSound('success');
++
++    showToast(`Welcome back, ${state.student.name}! 👋 Ready to survive another day? 🔥`, 'success');
+     showToast(`“Your assignments missed you. 😭”`, 'warning');
+ 
+     showMainApp();
+@@ -616,8 +616,128 @@
+ 
++  function handleSignUp(event) {
++    if (event) event.preventDefault();
++    playSound('click');
++
++    const name = document.getElementById('signup-name').value.trim();
++    const username = document.getElementById('signup-username').value.trim().toLowerCase();
++    const email = document.getElementById('signup-email').value.trim().toLowerCase();
++    const password = document.getElementById('signup-password').value;
++    const confirmPassword = document.getElementById('signup-confirm-password').value;
++    const college = document.getElementById('signup-college').value.trim();
++    const branch = document.getElementById('signup-branch').value;
++    const semester = document.getElementById('signup-semester').value;
++    const target = parseInt(document.getElementById('signup-target').value, 10) || 75;
++
++    if (!name || !username || !email || !password) {
++      showToast('Please fill in all required fields! ✍️', 'warning');
++      return;
++    }
++
++    if (password !== confirmPassword) {
++      playSound('alert');
++      showToast('Passwords do not match! Please check again 🔒', 'danger');
++      return;
++    }
++
++    // Check if username or email already registered
++    const exists = (state.registeredUsers || []).some(u => u.username === username || u.email === email);
++    if (exists) {
++      showToast('An account with this username/email already exists! Please sign in 🔑', 'warning');
++      switchAuthTab('signin');
++      return;
++    }
++
++    const newUser = {
++      name,
++      username,
++      email,
++      password,
++      college,
++      branch,
++      semester,
++      target,
++    };
++
++    if (!state.registeredUsers) state.registeredUsers = [];
++    state.registeredUsers.push(newUser);
++
++    // Set as active student
++    state.student = {
++      ...state.student,
++      name,
++      username,
++      email,
++      password,
++      college,
++      branch,
++      semester,
++      target,
++      isLoggedIn: true,
++      rememberMe: true,
++    };
++
++    saveState();
++    playSound('success');
++
++    showToast(`🎉 Account created! Welcome to Survival Mode, ${name}! 🔥`, 'success');
++    showToast(`Target Attendance: ${target}% • College: ${college} 🙏`, 'info');
++
++    showMainApp();
++  }
++
++  function quickDemoLogin(username) {
++    playSound('click');
++    const demo = DEFAULT_INDIAN_STUDENTS.find(s => s.username === username);
++    if (!demo) return;
++
++    // Pre-fill inputs
++    const idInput = document.getElementById('login-identifier');
++    const passInput = document.getElementById('login-password');
++    if (idInput) idInput.value = demo.username;
++    if (passInput) passInput.value = demo.password;
++
++    state.student = {
++      ...state.student,
++      name: demo.name,
++      username: demo.username,
++      email: demo.email,
++      password: demo.password,
++      college: demo.college,
++      branch: demo.branch,
++      semester: demo.semester,
++      target: demo.target,
++      isLoggedIn: true,
++      rememberMe: true,
++    };
++
++    if (demo.subjects && demo.subjects.length) {
++      state.subjects = JSON.parse(JSON.stringify(demo.subjects));
++    }
++
++    saveState();
++    playSound('success');
++
++    showToast(`Logged in as ${demo.name} (${demo.college})! 🎓`, 'success');
++    if (demo.profileQuote) {
++      showToast(`“${demo.profileQuote}” 😂`, 'warning');
++    }
++
++    showMainApp();
++  }
++
++  function openDemoCredentialsModal() {
++    playSound('click');
++    openModal('modal-demo-credentials');
++  }
++
+   function loginAsGuest() {
+     playSound('click');
+     state.student.name = 'Alex Rivers';
++    state.student.username = 'guest_survivor';
+     state.student.email = 'alex.guest@college.edu';
++    state.student.college = 'Delhi Technological University (DTU)';
++    state.student.branch = 'Computer Science & Engineering';
++    state.student.semester = 'Semester 4';
+     state.student.isLoggedIn = true;
+     saveState();
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

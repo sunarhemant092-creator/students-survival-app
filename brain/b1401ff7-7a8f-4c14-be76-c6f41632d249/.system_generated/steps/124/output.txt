@@ -1,0 +1,523 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\app.js. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -2259,6 +2259,479 @@
+   }
+ 
+   // ==========================================
++  // 15.5 🔔 PENDING WORK NOTIFICATION BAR & PERIODIC REMINDER ENGINE
++  // ==========================================
++  let notifProgressInterval = null;
++  let periodicReminderInterval = null;
++  const NOTIF_CYCLE_SECONDS = 7;
++
++  function computePendingAlerts() {
++    const alerts = [];
++    const now = Date.now();
++
++    // 1. Pending Assignments (Sorted by closest deadline)
++    const pendingAsgs = state.assignments.filter(a => !a.completed);
++    const sortedAsgs = [...pendingAsgs].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
++
++    sortedAsgs.forEach(asg => {
++      const dueTime = new Date(asg.dueDate).getTime();
++      const diffMs = dueTime - now;
++      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
++      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
++
++      if (diffMs < 0) {
++        alerts.push({
++          id: `alert-asg-${asg.id}`,
++          type: 'assignment',
++          urgency: 'critical',
++          badge: '💀 OVERDUE DEADLINE',
++          icon: '💀',
++          title: asg.title,
++          message: `OVERDUE! "${asg.title}" (${asg.subject}) is past deadline! Submit ASAP!`,
++          timeRemaining: 'Overdue!',
++          actionTab: 'assignments',
++          actionText: 'Submit Now 🚀',
++        });
++      } else if (diffHours <= 24) {
++        alerts.push({
++          id: `alert-asg-${asg.id}`,
++          type: 'assignment',
++          urgency: 'critical',
++          badge: '🔥 DUE TODAY',
++          icon: '🔥',
++          title: asg.title,
++          message: `Due today! "${asg.title}" has only ${diffHours}h left! Stop scrolling, start typing! 💀`,
++          timeRemaining: `${diffHours}h remaining`,
++          actionTab: 'assignments',
++          actionText: 'Complete Task ✍️',
++        });
++      } else if (diffDays <= 2) {
++        alerts.push({
++          id: `alert-asg-${asg.id}`,
++          type: 'assignment',
++          urgency: 'urgent',
++          badge: '⚠️ DUE IN 2 DAYS',
++          icon: '⚠️',
++          title: asg.title,
++          message: `"${asg.title}" (${asg.subject}) is due in 2 days. Time to finish the work!`,
++          timeRemaining: `${diffDays} days left`,
++          actionTab: 'assignments',
++          actionText: 'Open Assignment 📝',
++        });
++      } else {
++        alerts.push({
++          id: `alert-asg-${asg.id}`,
++          type: 'assignment',
++          urgency: 'normal',
++          badge: '📝 PENDING TASK',
++          icon: '📝',
++          title: asg.title,
++          message: `Pending task: "${asg.title}" due in ${diffDays} days (${asg.subject}).`,
++          timeRemaining: `${diffDays} days left`,
++          actionTab: 'assignments',
++          actionText: 'View Task 👁️',
++        });
++      }
++    });
++
++    // 2. Attendance Shortage Warnings (< 75%)
++    state.subjects.forEach(sub => {
++      const math = calculateSubjectAttendance(sub.total, sub.attended, 75);
++      if (math.status === 'Danger') {
++        alerts.push({
++          id: `alert-sub-${sub.id}`,
++          type: 'attendance',
++          urgency: 'critical',
++          badge: '🚨 SHORTAGE DANGER',
++          icon: '🚨',
++          title: `${sub.name} Attendance Danger`,
++          message: `${sub.name} is at ${math.percent}%! Must attend next ${math.classesNeeded} classes to escape detention!`,
++          timeRemaining: `${math.percent}% (<75%)`,
++          actionTab: 'attendance',
++          actionText: 'Fix Attendance 📊',
++        });
++      } else if (math.status === 'Warning') {
++        alerts.push({
++          id: `alert-sub-${sub.id}`,
++          type: 'attendance',
++          urgency: 'warning',
++          badge: '⚠️ ATTENDANCE WARNING',
++          icon: '⚠️',
++          title: `${sub.name} Warning`,
++          message: `${sub.name} is at ${math.percent}%. Attend next ${math.classesNeeded} classes to reach 75%.`,
++          timeRemaining: `${math.percent}%`,
++          actionTab: 'attendance',
++          actionText: 'Check Bunk 🧮',
++        });
++      }
++    });
++
++    // 3. Closest Upcoming Exams (< 14 days)
++    const sortedExams = [...state.exams].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
++    sortedExams.forEach(exam => {
++      const diffDays = Math.floor((new Date(exam.date).getTime() - now) / (1000 * 60 * 60 * 24));
++      if (diffDays >= 0 && diffDays <= 3) {
++        alerts.push({
++          id: `alert-exam-${exam.id}`,
++          type: 'exam',
++          urgency: 'critical',
++          badge: '⏳ EXAM PANIC MODE',
++          icon: '⏳',
++          title: `${exam.subject} Exam`,
++          message: `${exam.subject} Exam in ${diffDays === 0 ? 'LESS THAN 24 HOURS' : diffDays + ' days'}! Start revision now!`,
++          timeRemaining: `${diffDays}d left`,
++          actionTab: 'exams',
++          actionText: 'View Syllabus 📖',
++        });
++      } else if (diffDays > 3 && diffDays <= 14) {
++        alerts.push({
++          id: `alert-exam-${exam.id}`,
++          type: 'exam',
++          urgency: 'warning',
++          badge: '⏳ EXAM COUNTDOWN',
++          icon: '⏳',
++          title: `${exam.subject} Exam`,
++          message: `${exam.subject} Exam in ${diffDays} days at ${exam.hall}. Don't leave it to the last night!`,
++          timeRemaining: `${diffDays}d left`,
++          actionTab: 'exams',
++          actionText: 'Prep Exam 🎯',
++        });
++      }
++    });
++
++    state.activeAlerts = alerts;
++    return alerts;
++  }
++
++  function renderNotificationBar() {
++    const bar = document.getElementById('global-notification-bar');
++    const badgeEl = document.getElementById('notif-bar-badge');
++    const iconEl = document.getElementById('notif-bar-icon');
++    const messageEl = document.getElementById('notif-bar-message');
++    const timeEl = document.getElementById('notif-bar-time');
++    const counterEl = document.getElementById('notif-bar-counter');
++    const actionBtn = document.getElementById('notif-bar-action-btn');
++    const cycleBtn = document.getElementById('notif-bar-cycle-btn');
++    const unreadCountEl = document.getElementById('header-unread-alerts-count');
++
++    if (!bar) return;
++
++    if (!state.notifBarVisible) {
++      bar.classList.add('hidden');
++    } else {
++      bar.classList.remove('hidden');
++    }
++
++    const alerts = computePendingAlerts();
++
++    if (unreadCountEl) {
++      unreadCountEl.textContent = alerts.length;
++      if (alerts.length === 0) unreadCountEl.classList.add('hidden');
++      else unreadCountEl.classList.remove('hidden');
++    }
++
++    if (alerts.length === 0) {
++      if (iconEl) iconEl.textContent = '🎉';
++      if (badgeEl) {
++        badgeEl.textContent = 'ALL CAUGHT UP';
++        badgeEl.className = 'hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
++      }
++      if (messageEl) messageEl.textContent = 'Zero pending assignments or shortages! You are thriving today. 🏖️';
++      if (timeEl) timeEl.textContent = 'Chill mode 😎';
++      if (counterEl) counterEl.textContent = '0/0';
++      if (actionBtn) actionBtn.classList.add('hidden');
++      bar.className = 'notification-bar sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white';
++      return;
++    }
++
++    if (actionBtn) actionBtn.classList.remove('hidden');
++
++    if (state.currentNotifIndex >= alerts.length) {
++      state.currentNotifIndex = 0;
++    } else if (state.currentNotifIndex < 0) {
++      state.currentNotifIndex = alerts.length - 1;
++    }
++
++    const current = alerts[state.currentNotifIndex];
++
++    if (current.urgency === 'critical') {
++      bar.className = 'notification-bar urgent-alert sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white';
++    } else if (current.urgency === 'warning' || current.urgency === 'urgent') {
++      bar.className = 'notification-bar warning-alert sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white';
++    } else {
++      bar.className = 'notification-bar sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white';
++    }
++
++    if (iconEl) iconEl.textContent = current.icon;
++    if (badgeEl) {
++      badgeEl.textContent = current.badge;
++      badgeEl.className = `hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
++        current.urgency === 'critical' ? 'bg-rose-500/30 text-rose-200 border border-rose-500/50 animate-pulse' :
++        current.urgency === 'warning' ? 'bg-amber-500/30 text-amber-200 border border-amber-500/50' :
++        'bg-indigo-500/30 text-indigo-200 border border-indigo-500/50'
++      }`;
++    }
++    if (messageEl) messageEl.textContent = current.message;
++    if (timeEl) timeEl.textContent = current.timeRemaining;
++    if (counterEl) counterEl.textContent = `${state.currentNotifIndex + 1}/${alerts.length}`;
++    if (actionBtn) {
++      actionBtn.innerHTML = `<span>${current.actionText || 'Take Action 🚀'}</span>`;
++    }
++    if (cycleBtn) {
++      cycleBtn.textContent = state.notifCycleActive ? '⏸️' : '▶️';
++    }
++
++    renderNotificationCenterList();
++  }
++
++  function startNotifCycle() {
++    if (notifProgressInterval) clearInterval(notifProgressInterval);
++
++    const progressLine = document.getElementById('notif-progress-line');
++    let progressStep = 0;
++    const totalSteps = NOTIF_CYCLE_SECONDS * 10; // every 100ms
++
++    notifProgressInterval = setInterval(() => {
++      if (!state.notifCycleActive) return;
++
++      progressStep += 1;
++      const pct = (progressStep / totalSteps) * 100;
++      if (progressLine) progressLine.style.width = `${100 - pct}%`;
++
++      if (progressStep >= totalSteps) {
++        progressStep = 0;
++        const alerts = state.activeAlerts;
++        if (alerts.length > 1) {
++          state.currentNotifIndex = (state.currentNotifIndex + 1) % alerts.length;
++          renderNotificationBar();
++        }
++      }
++    }, 100);
++  }
++
++  function resetCycleTimer() {
++    const progressLine = document.getElementById('notif-progress-line');
++    if (progressLine) progressLine.style.width = '100%';
++  }
++
++  function nextNotif() {
++    playSound('click');
++    const alerts = state.activeAlerts;
++    if (alerts.length <= 1) return;
++    state.currentNotifIndex = (state.currentNotifIndex + 1) % alerts.length;
++    resetCycleTimer();
++    renderNotificationBar();
++  }
++
++  function prevNotif() {
++    playSound('click');
++    const alerts = state.activeAlerts;
++    if (alerts.length <= 1) return;
++    state.currentNotifIndex = (state.currentNotifIndex - 1 + alerts.length) % alerts.length;
++    resetCycleTimer();
++    renderNotificationBar();
++  }
++
++  function handleNotifBarAction() {
++    const alerts = state.activeAlerts;
++    if (alerts.length === 0) return;
++    const current = alerts[state.currentNotifIndex];
++    if (current && current.actionTab) {
++      navigate(current.actionTab);
++    }
++  }
++
++  function dismissNotifBar() {
++    playSound('click');
++    state.notifBarVisible = false;
++    saveState();
++    const bar = document.getElementById('global-notification-bar');
++    if (bar) bar.classList.add('hidden');
++    showToast('Notification bar hidden. Tap 🔔 anytime to bring it back!', 'info');
++  }
++
++  function showNotifBarAgain() {
++    playSound('click');
++    state.notifBarVisible = true;
++    saveState();
++    const bar = document.getElementById('global-notification-bar');
++    if (bar) bar.classList.remove('hidden');
++    renderNotificationBar();
++    closeModal('modal-notifications');
++    showToast('Notification bar pinned back to top! 📌', 'success');
++  }
++
++  function toggleNotifCycle() {
++    playSound('click');
++    state.notifCycleActive = !state.notifCycleActive;
++    const cycleBtn = document.getElementById('notif-bar-cycle-btn');
++    if (cycleBtn) cycleBtn.textContent = state.notifCycleActive ? '⏸️' : '▶️';
++    if (state.notifCycleActive) {
++      showToast('Alert auto-cycle resumed ▶️', 'info');
++    } else {
++      showToast('Alert auto-cycle paused ⏸️', 'info');
++    }
++  }
++
++  function toggleNotificationCenter() {
++    playSound('click');
++    const select = document.getElementById('notif-interval-select');
++    const btnDesktop = document.getElementById('btn-desktop-notif');
++
++    if (select) select.value = state.reminderIntervalMinutes || 3;
++    if (btnDesktop && 'Notification' in window && Notification.permission === 'granted') {
++      btnDesktop.textContent = 'Active ✅';
++      btnDesktop.className = 'px-2.5 py-0.5 rounded-lg bg-emerald-600 border border-emerald-500 text-white font-bold transition';
++    }
++
++    renderNotificationCenterList();
++    openModal('modal-notifications');
++  }
++
++  function renderNotificationCenterList() {
++    const listEl = document.getElementById('notif-center-list');
++    if (!listEl) return;
++
++    const alerts = computePendingAlerts();
++
++    listEl.innerHTML = '';
++    if (alerts.length === 0) {
++      listEl.innerHTML = `
++        <div class="p-6 text-center text-slate-400">
++          <span class="text-3xl block mb-2">🏖️</span>
++          <p class="text-xs font-bold text-white">No pending tasks or deadlines!</p>
++          <p class="text-[11px] text-slate-400 mt-0.5">You are completely caught up. Go rest or grab Maggi! 🍜</p>
++        </div>
++      `;
++      return;
++    }
++
++    alerts.forEach((alert) => {
++      const item = document.createElement('div');
++      item.className = `p-3 rounded-2xl border transition flex items-start justify-between gap-3 ${
++        alert.urgency === 'critical' ? 'bg-rose-950/40 border-rose-500/40 hover:bg-rose-950/60' :
++        alert.urgency === 'warning' ? 'bg-amber-950/40 border-amber-500/40 hover:bg-amber-950/60' :
++        'bg-white/5 border-white/10 hover:bg-white/10'
++      }`;
++
++      item.innerHTML = `
++        <div class="flex items-start gap-2.5 flex-1 min-w-0">
++          <span class="text-lg p-1.5 rounded-xl bg-white/10 flex-shrink-0">${alert.icon}</span>
++          <div class="min-w-0">
++            <div class="flex items-center gap-1.5 mb-1">
++              <span class="px-2 py-0.2 rounded-full text-[9px] font-black uppercase ${
++                alert.urgency === 'critical' ? 'bg-rose-500/30 text-rose-300' :
++                alert.urgency === 'warning' ? 'bg-amber-500/30 text-amber-300' :
++                'bg-indigo-500/30 text-indigo-300'
++              }">${alert.badge}</span>
++              <span class="text-[10px] font-mono text-slate-400 font-bold">${alert.timeRemaining}</span>
++            </div>
++            <p class="text-xs text-slate-200 font-medium leading-relaxed">${alert.message}</p>
++          </div>
++        </div>
++        <button onclick="App.navigate('${alert.actionTab}'); App.closeModal('modal-notifications')" class="flex-shrink-0 px-2.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] shadow transition active:scale-95">
++          ${alert.actionText || 'Go'} &rarr;
++        </button>
++      `;
++
++      listEl.appendChild(item);
++    });
++  }
++
++  // Periodic Reminder Engine ("Time to Time" Notifications)
++  function startPeriodicReminderEngine() {
++    if (periodicReminderInterval) clearInterval(periodicReminderInterval);
++
++    const intervalMs = (state.reminderIntervalMinutes || 3) * 60 * 1000;
++
++    periodicReminderInterval = setInterval(() => {
++      triggerTimeReminder(false);
++    }, intervalMs);
++  }
++
++  function updateReminderInterval(minutes) {
++    playSound('click');
++    state.reminderIntervalMinutes = parseInt(minutes, 10) || 3;
++    saveState();
++    startPeriodicReminderEngine();
++    showToast(`Reminder frequency set to every ${state.reminderIntervalMinutes} min${state.reminderIntervalMinutes > 1 ? 's' : ''}! ⏰`, 'success');
++  }
++
++  function triggerTimeReminder(isManual = false) {
++    const alerts = computePendingAlerts();
++    if (alerts.length === 0) {
++      if (isManual) {
++        playSound('success');
++        showToast('All caught up! Zero pending tasks or attendance shortages right now. 🏖️', 'success');
++      }
++      return;
++    }
++
++    const alert = alerts[state.currentNotifIndex % alerts.length];
++
++    playSound('alert');
++
++    const humorLead = [
++      '⏰ College Survival Check-in:',
++      '🚨 Academic Reality Check:',
++      '☕ Procrastination Detector Fired:',
++      '📢 Pending Work Reminder:',
++    ];
++    const randLead = humorLead[Math.floor(Math.random() * humorLead.length)];
++
++    showToast(`${randLead} ${alert.message}`, alert.urgency === 'critical' ? 'danger' : 'warning');
++
++    if ('Notification' in window && Notification.permission === 'granted') {
++      try {
++        new Notification('🎓 Student Survival App Alert!', {
++          body: alert.message,
++          icon: 'assets/life-of-a-student.jpg',
++          badge: 'assets/life-of-a-student.jpg',
++          tag: 'student-survival-alert',
++        });
++      } catch (err) {
++        console.warn('Native notification failed:', err);
++      }
++    }
++
++    state.currentNotifIndex = (state.currentNotifIndex + 1) % alerts.length;
++    renderNotificationBar();
++  }
++
++  function triggerTestReminder() {
++    playSound('click');
++    triggerTimeReminder(true);
++  }
++
++  function requestDesktopNotifications() {
++    playSound('click');
++    if (!('Notification' in window)) {
++      showToast('Your browser does not support desktop notifications, but in-app reminders are active! 📱', 'warning');
++      return;
++    }
++
++    Notification.requestPermission().then(permission => {
++      if (permission === 'granted') {
++        state.desktopNotifEnabled = true;
++        saveState();
++        playSound('success');
++        showToast('Desktop push notifications enabled! You will be alerted even in other tabs 🔔', 'success');
++        const btn = document.getElementById('btn-desktop-notif');
++        if (btn) {
++          btn.textContent = 'Active ✅';
++          btn.className = 'px-2.5 py-0.5 rounded-lg bg-emerald-600 border border-emerald-500 text-white font-bold transition';
++        }
++        new Notification('🎓 Student Survival App', {
++          body: 'Pending work notifications enabled! We will keep you updated time to time. 🔥',
++          icon: 'assets/life-of-a-student.jpg',
++        });
++      } else {
++        showToast('Desktop notifications permission denied. Using in-app alerts instead! ℹ️', 'info');
++      }
++    });
++  }
++
++  // ==========================================
+   // 16. MODAL UTILITIES & ESCAPE HTML
+   // ==========================================
+   function openModal(modalId) {
+@@ -2287,6 +2287,7 @@
+     renderCanteen();
+     renderTimetable();
+     renderExams();
++    renderNotificationBar();
+   }
+ 
+   // ==========================================
+@@ -2305,6 +2305,10 @@
+     // Sound button icon
+     const soundBtn = document.getElementById('sound-toggle-btn');
+     if (soundBtn) soundBtn.textContent = state.student.soundEnabled ? '🔊' : '🔇';
++
++    // Start live notification bar auto-cycle and periodic reminder engine
++    startNotifCycle();
++    startPeriodicReminderEngine();
+   }
+ 
+   // Self-start on DOM ready
+@@ -2360,6 +2360,18 @@
+     resetToSampleData,
+     openModal,
+     closeModal,
++    // Notification Bar & Periodic Reminder methods
++    toggleNotificationCenter,
++    nextNotif,
++    prevNotif,
++    handleNotifBarAction,
++    dismissNotifBar,
++    showNotifBarAgain,
++    toggleNotifCycle,
++    updateReminderInterval,
++    triggerTestReminder,
++    requestDesktopNotifications,
+   };
+ })();
++
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

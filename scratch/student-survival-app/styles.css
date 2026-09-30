@@ -1,0 +1,304 @@
+/* ========================================================
+   STUDENT SURVIVAL APP 🎓 — CUSTOM STYLESHEET
+   Glassmorphism + Responsive Design + "Life of a Student" Theme
+======================================================== */
+
+/* Root Font & Base Reset */
+:root {
+  --primary-glow: rgba(99, 102, 241, 0.35);
+  --accent-amber: rgba(245, 158, 11, 0.4);
+  --glass-bg: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.14);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  background-color: #030712;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ========================================================
+   🖼️ BACKGROUND VISUAL: Uploaded "Life of a Student" Artwork
+======================================================== */
+.app-bg-image {
+  background-image: url('assets/life-of-a-student.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  filter: contrast(1.08) brightness(0.92);
+  transition: transform 0.5s ease;
+}
+
+/* On mobile screens, smartly center and focus on the notebook title and cartoon */
+@media (max-width: 640px) {
+  .app-bg-image {
+    background-position: center 20%;
+    background-size: cover;
+    background-attachment: scroll; /* smooth scroll on mobile browsers */
+  }
+}
+
+/* Dark Translucent Overlay to ensure AAA contrast & readability */
+.app-bg-overlay {
+  background: radial-gradient(circle at 50% 20%, rgba(15, 23, 42, 0.78) 0%, rgba(2, 6, 23, 0.88) 100%);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* ========================================================
+   GLASSMORPHISM CARDS & PANELS
+======================================================== */
+.glass-card {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.05) inset;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 15px rgba(99, 102, 241, 0.15);
+}
+
+.glass-nav {
+  background: rgba(10, 15, 30, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ========================================================
+   NAVIGATION & ACTIVE STATES
+======================================================== */
+.nav-btn {
+  color: #94a3b8;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-btn.active {
+  color: #ffffff;
+  background: rgba(99, 102, 241, 0.85);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+.mobile-nav-btn {
+  color: #94a3b8;
+  transition: all 0.15s ease;
+}
+
+.mobile-nav-btn.active {
+  color: #818cf8;
+  transform: translateY(-2px);
+}
+
+.mobile-nav-btn.active span:first-child {
+  transform: scale(1.18);
+  filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.6));
+}
+
+/* ========================================================
+   🔔 NOTIFICATION BAR & PENDING WORK TICKER
+======================================================== */
+.notification-bar {
+  background: linear-gradient(90deg, rgba(30, 27, 75, 0.94) 0%, rgba(15, 23, 42, 0.95) 50%, rgba(88, 28, 135, 0.9) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(129, 140, 248, 0.25);
+  box-shadow: 0 6px 20px -3px rgba(0, 0, 0, 0.5);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.notification-bar.urgent-alert {
+  background: linear-gradient(90deg, rgba(88, 28, 28, 0.96) 0%, rgba(30, 27, 75, 0.94) 50%, rgba(88, 28, 135, 0.92) 100%);
+  border-bottom: 1px solid rgba(244, 63, 94, 0.45);
+}
+
+.notification-bar.warning-alert {
+  background: linear-gradient(90deg, rgba(88, 55, 20, 0.96) 0%, rgba(20, 30, 60, 0.94) 50%, rgba(50, 20, 80, 0.92) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+.notification-progress {
+  height: 2px;
+  background: linear-gradient(90deg, #f59e0b, #ec4899, #6366f1);
+  transition: width 0.1s linear;
+}
+
+.pulse-badge {
+  animation: pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+/* ========================================================
+   AUTH TABS & DEMO ACCOUNT PILLS
+======================================================== */
+.auth-tab-btn {
+  transition: all 0.2s ease;
+  color: #94a3b8;
+}
+
+.auth-tab-btn.active {
+  background: rgba(99, 102, 241, 0.9) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.demo-account-pill {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.demo-account-pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(129, 140, 248, 0.5) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.timetable-day-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timetable-day-btn.active {
+  background: #0891b2;
+  color: #ffffff;
+  border-color: #06b6d4;
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+}
+
+.assign-filter-btn {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.assign-filter-btn.active {
+  background: #4f46e5 !important;
+  color: #ffffff !important;
+  border-color: #6366f1;
+}
+
+.brain-btn.active {
+  background: rgba(99, 102, 241, 0.25) !important;
+  border-color: #818cf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* ========================================================
+   ANIMATIONS & KEYFRAMES
+======================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 2.5s infinite ease-in-out;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 4s infinite ease-in-out;
+}
+
+/* ========================================================
+   CUSTOM SCROLLBAR
+======================================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ========================================================
+   MOBILE TOUCH FRIENDLINESS
+======================================================== */
+button, input, select, a {
+  touch-action: manipulation;
+}
+
+/* Smooth Pulse ring */
+.ring-pulse {
+  box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}

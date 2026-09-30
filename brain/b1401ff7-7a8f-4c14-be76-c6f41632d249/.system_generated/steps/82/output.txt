@@ -1,0 +1,17 @@
+
+The command exited with code 0.
+Output:
+
+FullName                                                                                    Length
+--------                                                                                    ------
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\assets                             
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\app.js                       93009 
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\index.html                   78637 
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\README.md                    10870 
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\styles.css                   5717  
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\assets\life-of-a-student.jpg 69031 
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\assets\logo.jpg              69031 
+C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\assets\student-life-logo.svg 10837 
+
+
+

@@ -1,0 +1,7 @@
+Task: b1401ff7-7a8f-4c14-be76-c6f41632d249/task-215
+Status: RUNNING
+Log: C:\Users\DELL\.gemini\antigravity\brain\b1401ff7-7a8f-4c14-be76-c6f41632d249\.system_generated\tasks\task-215.log
+Log output:
+[25232:12576:0930/114526.946:ERROR:chrome\browser\task_manager\providers\fallback_task_provider.cc:126] Every renderer should have at least one task provided by a primary task provider. If a "Renderer" fallback task is shown, it is a bug. If you have repro steps, please file a new bug and tag it as a dependency of crbug.com/40528867.
+
+Last progress: 5s ago

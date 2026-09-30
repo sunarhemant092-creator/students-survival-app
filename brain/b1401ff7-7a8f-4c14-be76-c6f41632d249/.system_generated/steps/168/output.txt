@@ -1,0 +1,124 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\app.js. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -16,14 +16,113 @@
+   'use strict';
+ 
+   // ==========================================
+-  // 1. DEFAULT REALISTIC SAMPLE DATA
+-  // ==========================================
++  // 1. DEFAULT REALISTIC SAMPLE DATA & INDIAN STUDENTS
++  // ==========================================
++  const DEFAULT_INDIAN_STUDENTS = [
++    {
++      name: 'Aman Sharma',
++      username: 'aman_sharma',
++      email: 'aman.sharma@college.edu',
++      password: 'password123',
++      college: 'Delhi Technological University (DTU)',
++      branch: 'Computer Science & Engineering',
++      semester: 'Semester 4',
++      target: 75,
++      subjects: [
++        { id: 'sub-1', name: 'DBMS (CS301)', total: 40, attended: 32 },
++        { id: 'sub-2', name: 'Data Structures (DS)', total: 36, attended: 27 },
++        { id: 'sub-3', name: 'Digital System Design (DSD)', total: 32, attended: 22 },
++        { id: 'sub-4', name: 'Value Added Course (VAC)', total: 20, attended: 18 },
++        { id: 'sub-5', name: 'OOP / Java', total: 42, attended: 36 },
++        { id: 'sub-6', name: 'COA (CS304)', total: 35, attended: 21 },
++      ],
++      profileQuote: 'Balancing Maggi, DBMS & 75% attendance since 2024.'
++    },
++    {
++      name: 'Priya Patel',
++      username: 'priya_patel',
++      email: 'priya.patel@nit.ac.in',
++      password: 'priyapassword',
++      college: 'National Institute of Technology (NIT Trichy)',
++      branch: 'Information Technology',
++      semester: 'Semester 4',
++      target: 80,
++      subjects: [
++        { id: 'sub-1', name: 'Database Management Systems', total: 40, attended: 36 },
++        { id: 'sub-2', name: 'Data Structures & Algorithms', total: 38, attended: 34 },
++        { id: 'sub-3', name: 'Web Technologies', total: 30, attended: 27 },
++        { id: 'sub-4', name: 'Software Engineering', total: 25, attended: 23 },
++        { id: 'sub-5', name: 'OOP / Java', total: 40, attended: 37 },
++        { id: 'sub-6', name: 'Computer Networks', total: 35, attended: 30 },
++      ],
++      profileQuote: 'Always sits in the front row, still borrows notes from seniors.'
++    },
++    {
++      name: 'Rahul Verma',
++      username: 'rahul_v',
++      email: 'rahul.verma@vit.edu.in',
++      password: 'rahulpass2026',
++      college: 'Vellore Institute of Technology (VIT)',
++      branch: 'Electronics & Communication',
++      semester: 'Semester 4',
++      target: 75,
++      subjects: [
++        { id: 'sub-1', name: 'Signals & Systems', total: 40, attended: 24 },
++        { id: 'sub-2', name: 'Analog Circuits', total: 38, attended: 25 },
++        { id: 'sub-3', name: 'Digital Electronics', total: 35, attended: 22 },
++        { id: 'sub-4', name: 'Microprocessors', total: 32, attended: 20 },
++        { id: 'sub-5', name: 'Control Systems', total: 30, attended: 23 },
++        { id: 'sub-6', name: 'Engineering Math IV', total: 45, attended: 28 },
++      ],
++      profileQuote: 'Living dangerously at 65% attendance. Professional class negotiator.'
++    },
++    {
++      name: 'Ananya Iyer',
++      username: 'ananya_iyer',
++      email: 'ananya.iyer@bits-pilani.ac.in',
++      password: 'ananyapass',
++      college: 'BITS Pilani',
++      branch: 'AI & Data Science',
++      semester: 'Semester 6',
++      target: 85,
++      subjects: [
++        { id: 'sub-1', name: 'Machine Learning', total: 38, attended: 36 },
++        { id: 'sub-2', name: 'Deep Learning', total: 32, attended: 29 },
++        { id: 'sub-3', name: 'Natural Language Processing', total: 30, attended: 28 },
++        { id: 'sub-4', name: 'Big Data Analytics', total: 34, attended: 31 },
++        { id: 'sub-5', name: 'AI Ethics & Governance', total: 20, attended: 19 },
++      ],
++      profileQuote: 'Coding models by day, crying over loss functions by night.'
++    },
++    {
++      name: 'Rohan Gupta',
++      username: 'rohan_gupta',
++      email: 'rohan.gupta@iitd.ac.in',
++      password: 'rohanpass',
++      college: 'Indian Institute of Technology (IIT Delhi)',
++      branch: 'Computer Science & Engineering',
++      semester: 'Semester 4',
++      target: 75,
++      subjects: [
++        { id: 'sub-1', name: 'Operating Systems', total: 38, attended: 28 },
++        { id: 'sub-2', name: 'Compiler Design', total: 34, attended: 24 },
++        { id: 'sub-3', name: 'Design & Analysis of Algorithms', total: 40, attended: 31 },
++        { id: 'sub-4', name: 'Computer Architecture', total: 36, attended: 25 },
++        { id: 'sub-5', name: 'Computer Networks', total: 32, attended: 24 },
++      ],
++      profileQuote: 'Academic comeback scheduled for 2:00 AM every exam night.'
++    }
++  ];
++
+   const DEFAULT_STUDENT = {
+-    name: 'Aarav Sharma',
+-    email: 'aarav.sharma@college.edu',
+-    college: 'Institute of Engineering & Technology',
++    name: 'Aman Sharma',
++    username: 'aman_sharma',
++    email: 'aman.sharma@college.edu',
++    password: 'password123',
++    college: 'Delhi Technological University (DTU)',
+     branch: 'Computer Science & Engineering',
+     semester: 'Semester 4',
++    target: 75,
+     isLoggedIn: false,
+     rememberMe: true,
+     soundEnabled: true,
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

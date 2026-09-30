@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Student Survival App 🎓 | Survive college. One deadline at a time. 😂</title>
+
+  <!-- Favicon using the uploaded Life of a Student artwork -->
+  <link rel="icon" type="image/jpeg" href="assets/life-of-a-student.jpg">
+  <link rel="apple-touch-icon" href="assets/life-of-a-student.jpg">
+
+  <!-- Google Fonts: Outfit (modern display) & Plus Jakarta Sans (ultra clean readable body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            heading: ['Outfit', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            accent: {
+              amber: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e',
+              cyan: '#06b6d4',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles for Glassmorphism, animations and background -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- ======================================================== -->
+  <!-- FULL SCREEN BACKGROUND: Uploaded "Life of a Student" Image -->
+  <!-- ======================================================== -->
+  <div class="fixed inset-0 z-[-2] app-bg-image" aria-hidden="true"></div>
+  <!-- Dark translucent overlay to preserve contrast while keeping artwork recognizable -->
+  <div class="fixed inset-0 z-[-1] app-bg-overlay" aria-hidden="true"></div>
+
+  <!-- ======================================================== -->
+  <!-- ⏳ APP LOADING / SPLASH SCREEN (2-3 seconds with funny messages) -->
+  <!-- ======================================================== -->
+  <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 select-none bg-slate-950/90 backdrop-blur-xl">
+    <div class="w-full max-w-sm flex flex-col items-center text-center">
+      <!-- Uploaded Image Logo with circular/rounded crop & glowing badge -->
+      <div class="relative mb-4 group">
+        <div class="absolute -inset-1.5 bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-500 rounded-3xl blur-lg opacity-75 animate-pulse"></div>
+        <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-2 border-white/30 shadow-2xl bg-black">
+          <img src="assets/life-of-a-student.jpg" alt="Life of a Student Logo" class="w-full h-full object-cover object-center transform hover:scale-105 transition duration-500">
+        </div>
+        <span class="absolute -bottom-2 -right-2 bg-indigo-600 text-white text-xs px-2.5 py-0.5 rounded-full font-bold shadow-lg border border-white/20">
+          v2.0 🔥
+        </span>
+      </div>
+
+      <h1 class="text-2xl sm:text-3xl font-black tracking-tight font-heading text-white flex items-center justify-center gap-2">
+        <span>🎓</span> Student Survival App
+      </h1>
+      <p class="text-xs sm:text-sm text-indigo-300 font-semibold mt-1 mb-5">
+        “Loading your academic survival kit...”
+      </p>
+
+      <!-- Dynamic Funny Student Messages with smooth fade -->
+      <div class="w-full min-h-[72px] flex items-center justify-center px-4 py-3 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 mb-5 shadow-inner">
+        <p id="splash-quote" class="text-xs sm:text-sm font-bold text-amber-200 text-center leading-relaxed transition-opacity duration-300">
+          “📚 Finding your motivation... ERROR 404.”
+        </p>
+      </div>
+
+      <!-- Animated Progress Bar -->
+      <div class="w-full bg-white/15 h-3 rounded-full overflow-hidden mb-2 p-0.5 relative shadow-inner">
+        <div id="splash-progress-bar" class="h-full rounded-full bg-gradient-to-r from-amber-400 via-rose-400 to-indigo-400 transition-all duration-100 ease-out" style="width: 0%;"></div>
+      </div>
+      <div class="w-full flex justify-between text-[11px] text-slate-300 font-mono font-bold mb-4">
+        <span id="splash-status-text">Preparing survival mode...</span>
+        <span id="splash-progress-percent">0%</span>
+      </div>
+
+      <button onclick="App.skipSplash()" class="text-xs font-bold text-indigo-300 hover:text-white transition flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-white/10">
+        <span>Skip to App</span> &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 🔐 1. LOGIN / WELCOME PAGE (Glassmorphism Card) -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- 🔐 1. LOGIN / CREATE ACCOUNT / DEMO PAGE (Glassmorphism Card) -->
+  <!-- ======================================================== -->
+  <div id="auth-screen" class="fixed inset-0 z-40 hidden flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+    <div class="w-full max-w-lg glass-card rounded-3xl p-5 sm:p-7 backdrop-blur-2xl shadow-2xl border border-white/20 text-white my-auto animate-fade-in relative overflow-hidden">
+      <!-- Glow accent behind card -->
+      <div class="absolute -top-20 -right-20 w-44 h-44 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -left-20 w-44 h-44 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Header with Logo -->
+      <div class="text-center mb-4">
+        <div class="inline-block relative mb-2.5">
+          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-indigo-400/50 shadow-xl mx-auto ring-4 ring-indigo-500/20">
+            <img src="assets/life-of-a-student.jpg" alt="Life of a Student Logo" class="w-full h-full object-cover">
+          </div>
+          <span class="absolute -bottom-1 -right-1 text-base">🧑‍🎓</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-black font-heading tracking-tight text-white flex items-center justify-center gap-2">
+          🎓 Student Survival App
+        </h2>
+        <p class="text-xs sm:text-sm text-indigo-200 font-medium mt-0.5">
+          “Survive college. One deadline at a time. 😂”
+        </p>
+      </div>
+
+      <!-- Auth Tabs: Sign In vs Create Account -->
+      <div class="flex items-center p-1 rounded-2xl bg-slate-900/80 border border-white/10 mb-4">
+        <button type="button" onclick="App.switchAuthTab('signin')" id="tab-auth-signin" class="auth-tab-btn active flex-1 py-2 px-3 rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5">
+          <span>🔑</span> Sign In
+        </button>
+        <button type="button" onclick="App.switchAuthTab('signup')" id="tab-auth-signup" class="auth-tab-btn flex-1 py-2 px-3 rounded-xl text-xs font-bold text-center transition flex items-center justify-center gap-1.5">
+          <span>➕</span> Create Account
+        </button>
+      </div>
+
+      <!-- ================= 1. SIGN IN TAB ================= -->
+      <div id="auth-panel-signin" class="space-y-4">
+        <form id="login-form" onsubmit="App.handleLogin(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">👤 Username or College Email</label>
+            <div class="relative">
+              <input type="text" id="login-identifier" placeholder="e.g. aman_sharma or aman.sharma@college.edu" required
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/70 border border-white/20 text-xs sm:text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1 flex justify-between">
+              <span>🔒 Password</span>
+              <span class="text-[11px] text-amber-300 font-normal">Demo pass: password123 🔑</span>
+            </label>
+            <input type="password" id="login-password" placeholder="••••••••" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/70 border border-white/20 text-xs sm:text-sm font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-300 pt-0.5">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input type="checkbox" id="login-remember" checked class="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 bg-slate-800 border-white/20">
+              <span>☑ Remember me</span>
+            </label>
+            <button type="button" onclick="App.openDemoCredentialsModal()" class="text-[11px] text-amber-300 hover:text-amber-200 underline font-bold">
+              View Demo Passwords 📋
+            </button>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="pt-2 space-y-2">
+            <button type="submit" class="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-indigo-600/40 hover:shadow-indigo-600/60 active:scale-[0.98] transition flex items-center justify-center gap-2">
+              <span>🚀 Enter Survival Mode</span>
+            </button>
+
+            <button type="button" onclick="App.loginAsGuest()" class="w-full py-2 px-4 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white font-bold text-xs border border-white/15 transition flex items-center justify-center gap-2">
+              <span>🎒 Continue as Guest</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- QUICK 1-CLICK DEMO ACCOUNTS (INDIAN STUDENTS) -->
+        <div class="mt-4 pt-3.5 border-t border-white/10">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <span>⚡</span> Quick Demo Login (Indian Students):
+            </span>
+            <button type="button" onclick="App.openDemoCredentialsModal()" class="text-[10px] text-slate-400 hover:text-white underline">
+              All 5 accounts &rarr;
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-left" id="demo-accounts-grid">
+            <!-- 1. Aman Sharma -->
+            <button type="button" onclick="App.quickDemoLogin('aman_sharma')" class="demo-account-pill p-2 rounded-xl bg-white/5 hover:bg-indigo-600/20 border border-white/10 text-left transition flex items-center gap-2.5 group">
+              <div class="w-8 h-8 rounded-lg bg-indigo-500/30 border border-indigo-400/40 text-indigo-300 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-600 group-hover:text-white">
+                AS
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-white truncate">Aman Sharma</div>
+                <div class="text-[10px] text-slate-400 truncate">DTU CSE • Sem 4 (80% 🟢)</div>
+              </div>
+            </button>
+
+            <!-- 2. Priya Patel -->
+            <button type="button" onclick="App.quickDemoLogin('priya_patel')" class="demo-account-pill p-2 rounded-xl bg-white/5 hover:bg-rose-600/20 border border-white/10 text-left transition flex items-center gap-2.5 group">
+              <div class="w-8 h-8 rounded-lg bg-rose-500/30 border border-rose-400/40 text-rose-300 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-rose-600 group-hover:text-white">
+                PP
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-white truncate">Priya Patel</div>
+                <div class="text-[10px] text-slate-400 truncate">NIT Trichy IT • Sem 4 (88% 🟢)</div>
+              </div>
+            </button>
+
+            <!-- 3. Rahul Verma -->
+            <button type="button" onclick="App.quickDemoLogin('rahul_v')" class="demo-account-pill p-2 rounded-xl bg-white/5 hover:bg-rose-600/20 border border-rose-500/30 text-left transition flex items-center gap-2.5 group">
+              <div class="w-8 h-8 rounded-lg bg-amber-500/30 border border-amber-400/40 text-amber-300 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-amber-600 group-hover:text-white">
+                RV
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-white truncate">Rahul Verma ⚠️</div>
+                <div class="text-[10px] text-rose-400 font-semibold truncate">VIT ECE • Shortage! (65% 🔴)</div>
+              </div>
+            </button>
+
+            <!-- 4. Ananya Iyer -->
+            <button type="button" onclick="App.quickDemoLogin('ananya_iyer')" class="demo-account-pill p-2 rounded-xl bg-white/5 hover:bg-emerald-600/20 border border-white/10 text-left transition flex items-center gap-2.5 group">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-black text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-600 group-hover:text-white">
+                AI
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-white truncate">Ananya Iyer</div>
+                <div class="text-[10px] text-slate-400 truncate">BITS Pilani AI • Sem 6 (92% ⭐)</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 2. CREATE ACCOUNT TAB ================= -->
+      <div id="auth-panel-signup" class="hidden space-y-3.5">
+        <form id="signup-form" onsubmit="App.handleSignUp(event)" class="space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">👤 Full Name</label>
+              <input type="text" id="signup-name" placeholder="e.g. Rohan Gupta" required
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🔑 Username</label>
+              <input type="text" id="signup-username" placeholder="e.g. rohan_coder" required
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-bold text-slate-300 mb-1">📧 College Email</label>
+            <input type="email" id="signup-email" placeholder="e.g. rohan.gupta@iitd.ac.in" required
+              class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🔒 Password</label>
+              <input type="password" id="signup-password" placeholder="••••••••" required minlength="4"
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🔒 Confirm Password</label>
+              <input type="password" id="signup-confirm-password" placeholder="••••••••" required minlength="4"
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🏛️ College / University</label>
+              <input type="text" id="signup-college" placeholder="e.g. IIT Delhi / DTU / VIT" required
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">💻 Branch</label>
+              <select id="signup-branch" class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="Computer Science & Engineering">CSE (Computer Science)</option>
+                <option value="Information Technology">IT (Information Technology)</option>
+                <option value="Electronics & Communication">ECE (Electronics)</option>
+                <option value="AI & Data Science">AI & Data Science</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Electrical Engineering">Electrical Engineering</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🎓 Semester</label>
+              <select id="signup-semester" class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="Semester 1">Semester 1</option>
+                <option value="Semester 2">Semester 2</option>
+                <option value="Semester 3">Semester 3</option>
+                <option value="Semester 4" selected>Semester 4</option>
+                <option value="Semester 5">Semester 5</option>
+                <option value="Semester 6">Semester 6</option>
+                <option value="Semester 7">Semester 7</option>
+                <option value="Semester 8">Semester 8</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-300 mb-1">🎯 Target Attendance</label>
+              <select id="signup-target" class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-xs font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="75">75% (Survival Minimum)</option>
+                <option value="80" selected>80% (Safe Buffer)</option>
+                <option value="85">85% (College Topper)</option>
+                <option value="90">90% (Parent Pride 🏆)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pt-1.5">
+            <button type="submit" class="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2 active:scale-[0.98]">
+              <span>🚀 Create My Survival Account</span>
+            </button>
+          </div>
+        </form>
+
+        <p class="text-[11px] text-center text-slate-400 pt-1">
+          Already registered? 
+          <button type="button" onclick="App.switchAuthTab('signin')" class="text-indigo-300 hover:underline font-bold">
+            Sign In here &rarr;
+          </button>
+        </p>
+      </div>
+
+      <!-- Footer Note -->
+      <p class="text-[11px] text-center text-slate-400 mt-4">
+        🔒 All data is safely stored in your browser's localStorage. No server leaks your bunk records! 🤫
+      </p>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MAIN APP WRAPPER (Shown after login) -->
+  <!-- ======================================================== -->
+  <div id="main-app" class="hidden flex-1 flex flex-col min-h-screen">
+
+    <!-- ======================================================== -->
+    <!-- TOP NAVIGATION / HEADER -->
+    <!-- ======================================================== -->
+    <header class="sticky top-0 z-30 glass-nav border-b border-white/10 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+        
+        <!-- Left: App Logo & Title -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="App.navigate('home')">
+          <!-- Circular / Rounded-square crop of uploaded Life of a Student artwork -->
+          <div class="relative w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl overflow-hidden border-2 border-indigo-400/40 shadow-lg ring-2 ring-indigo-500/20 flex-shrink-0">
+            <img src="assets/life-of-a-student.jpg" alt="Student Survival App" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h1 class="font-heading font-black text-base sm:text-xl text-white tracking-tight flex items-center gap-1">
+                <span>🎓</span> Student Survival App
+              </h1>
+              <span class="hidden sm:inline-block bg-amber-400/20 text-amber-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-amber-400/30">
+                PRO 🚀
+              </span>
+            </div>
+            <p class="text-[10px] sm:text-xs text-indigo-200 font-medium line-clamp-1">
+              “Because college is already hard enough 😭”
+            </p>
+          </div>
+        </div>
+
+        <!-- Center: Desktop Navigation Bar -->
+        <nav class="hidden md:flex items-center gap-1 bg-slate-900/60 p-1.5 rounded-2xl border border-white/10 shadow-inner">
+          <button onclick="App.navigate('home')" data-tab="home" class="nav-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>🏠</span> Home
+          </button>
+          <button onclick="App.navigate('attendance')" data-tab="attendance" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>📊</span> Attendance
+          </button>
+          <button onclick="App.navigate('assignments')" data-tab="assignments" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>📝</span> Assignments
+            <span id="badge-assignments-count" class="ml-1 px-1.5 py-0.2 bg-rose-500 text-white rounded-full text-[10px] font-black">3</span>
+          </button>
+          <button onclick="App.navigate('canteen')" data-tab="canteen" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>🍔</span> Canteen
+            <span id="header-canteen-pill" class="ml-1 px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-[10px] font-bold">OPEN</span>
+          </button>
+          <button onclick="App.navigate('timetable')" data-tab="timetable" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>📅</span> Timetable
+          </button>
+          <button onclick="App.navigate('exams')" data-tab="exams" class="nav-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+            <span>⏳</span> Exams
+          </button>
+          <button onclick="App.openSleepStudyModal()" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-500 to-rose-500 text-white hover:from-amber-400 hover:to-rose-400 shadow-md transition flex items-center gap-1">
+            <span>😂</span> Sleep or Study?
+          </button>
+        </nav>
+
+        <!-- Right: Profile, Survival Score & Sound -->
+        <!-- Right: Profile, Survival Score, Notifications & Sound -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Survival Score Chip (Desktop) -->
+          <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15">
+            <span class="text-xs">🎓 Survival:</span>
+            <span id="header-survival-score" class="text-xs font-black text-amber-300">82/100</span>
+          </div>
+
+          <!-- 🔔 Notification Bell Button with Live Badge -->
+          <button onclick="App.toggleNotificationCenter()" id="notification-bell-btn" title="Pending Work Alerts & Reminders"
+            class="relative p-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-slate-300 hover:text-white transition text-xs flex items-center justify-center">
+            <span class="text-sm">🔔</span>
+            <span id="header-unread-alerts-count" class="absolute -top-1 -right-1 px-1.5 py-0.2 bg-rose-500 text-white rounded-full text-[10px] font-black shadow-lg pulse-badge">3</span>
+          </button>
+
+          <!-- Sound Mute/Unmute Toggle -->
+          <button onclick="App.toggleSound()" id="sound-toggle-btn" title="Toggle Sound FX" class="p-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-slate-300 hover:text-white transition text-xs">
+            🔊
+          </button>
+
+          <!-- User Profile Dropdown Button -->
+          <button onclick="App.openProfileModal()" class="flex items-center gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 transition text-left">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-amber-400 flex items-center justify-center font-black text-white text-xs shadow">
+              <span id="header-avatar-initials">AS</span>
+            </div>
+            <div class="hidden sm:block">
+              <div id="header-user-name" class="text-xs font-bold text-white leading-tight">Aarav Sharma</div>
+              <div id="header-user-status" class="text-[10px] text-indigo-300">Surviving Semester 🔥</div>
+            </div>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ======================================================== -->
+    <!-- 🔔 LIVE PENDING WORK NOTIFICATION BAR / TICKER -->
+    <!-- ======================================================== -->
+    <aside id="global-notification-bar" class="notification-bar sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex items-center justify-between gap-3">
+        
+        <!-- Left: Alert Icon + Urgency Tag + Live Message -->
+        <div class="flex items-center gap-2.5 min-w-0 flex-1">
+          <span id="notif-bar-icon" class="p-1 rounded-lg bg-rose-500/20 text-rose-300 text-sm flex-shrink-0 animate-bounce-subtle">
+            🚨
+          </span>
+          <span id="notif-bar-badge" class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 flex-shrink-0">
+            URGENT DEADLINE
+          </span>
+          <div class="min-w-0 flex-1">
+            <p id="notif-bar-message" class="font-semibold text-xs text-slate-100 truncate">
+              Loading pending work notifications...
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Time Left + Action Button + Ticker Controls + Dismiss -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <span id="notif-bar-time" class="hidden md:inline-block text-[11px] font-mono text-amber-300 font-bold bg-white/10 px-2 py-0.5 rounded-md">
+            2 days left
+          </span>
+
+          <button id="notif-bar-action-btn" onclick="App.handleNotifBarAction()" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] transition shadow flex items-center gap-1 active:scale-95">
+            <span>Do It Now 🚀</span>
+          </button>
+
+          <!-- Navigation Arrows -->
+          <div class="hidden sm:flex items-center gap-0.5 bg-black/30 rounded-lg p-0.5 border border-white/10">
+            <button onclick="App.prevNotif()" title="Previous Alert" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">&lt;</button>
+            <span id="notif-bar-counter" class="px-1 text-[10px] text-slate-400 font-mono font-bold">1/4</span>
+            <button onclick="App.nextNotif()" title="Next Alert" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">&gt;</button>
+          </div>
+
+          <!-- Pause/Play Auto-cycle -->
+          <button onclick="App.toggleNotifCycle()" id="notif-bar-cycle-btn" title="Pause / Resume Alert Cycle" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">
+            ⏸️
+          </button>
+
+          <!-- Dismiss Bar Button -->
+          <button onclick="App.dismissNotifBar()" title="Dismiss notification bar (Re-open anytime via 🔔 bell)" class="p-1 text-slate-400 hover:text-rose-400 transition text-sm rounded hover:bg-white/10">
+            &times;
+          </button>
+        </div>
+
+      </div>
+      <!-- Auto-cycle Progress Line -->
+      <div class="w-full bg-white/5 h-[2px]">
+        <div id="notif-progress-line" class="notification-progress h-full w-full"></div>
+      </div>
+    </aside>
+
+    <!-- ======================================================== -->
+    <!-- CONTENT PAGES CONTAINER -->
+    <!-- ======================================================== -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-12">
+
+      <!-- ====================================================== -->
+      <!-- 🏠 PAGE 1: HOME DASHBOARD -->
+      <!-- ====================================================== -->
+      <section id="page-home" class="page-section space-y-6 animate-fade-in">
+        
+        <!-- Welcome Hero Greeting & Quote Banner -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-white/15 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+          <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-bold mb-3">
+                <span>🔥 Semester Survival Active</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              </div>
+              <h2 class="text-2xl sm:text-4xl font-black font-heading tracking-tight text-white">
+                Hey <span id="dash-greeting-name" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-rose-300 to-indigo-300">Student</span>! 👋
+              </h2>
+              <p class="text-sm sm:text-base text-slate-300 mt-1 font-medium">
+                Ready to survive today? Your assignments are waiting (and praying). 😂
+              </p>
+
+              <!-- Daily Student Quote -->
+              <div class="mt-4 flex items-center gap-3 bg-slate-900/60 border border-white/10 rounded-2xl p-3 max-w-xl">
+                <span class="text-xl">💡</span>
+                <div class="flex-1">
+                  <div class="text-[10px] uppercase font-bold tracking-wider text-amber-400">Daily Student Wisdom</div>
+                  <p id="dash-daily-quote" class="text-xs sm:text-sm font-semibold text-slate-200 italic">
+                    “Attendance is temporary. Backlogs are forever.”
+                  </p>
+                </div>
+                <button onclick="App.shuffleQuote()" title="Shuffle Quote" class="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs text-white transition active:rotate-180">
+                  🎲
+                </button>
+              </div>
+            </div>
+
+            <!-- Survival Score Dial / Radial Card -->
+            <div class="flex-shrink-0 flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md text-center min-w-[190px]">
+              <div class="relative w-28 h-28 flex items-center justify-center">
+                <!-- Circular SVG Progress -->
+                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" class="text-white/10" fill="transparent" />
+                  <circle id="dash-score-circle" cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8"
+                    class="text-indigo-400 transition-all duration-1000 ease-out"
+                    stroke-dasharray="251.2"
+                    stroke-dashoffset="45"
+                    stroke-linecap="round"
+                    fill="transparent" />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                  <span id="dash-survival-score-num" class="text-2xl font-black font-heading text-white">82</span>
+                  <span class="text-[10px] text-slate-400 font-bold uppercase">/ 100</span>
+                </div>
+              </div>
+              <div class="mt-2 text-xs font-black text-amber-300 flex items-center gap-1">
+                <span>🎓 Survival Score</span>
+              </div>
+              <p id="dash-survival-label" class="text-[11px] text-slate-400 font-medium">Safe from detention 😎</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Dashboard 5 Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- Card 1: 📊 Attendance Status -->
+          <div onclick="App.navigate('attendance')" class="glass-card rounded-2xl p-5 border border-white/15 hover:border-indigo-400/50 transition cursor-pointer group shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl p-2 rounded-xl bg-indigo-500/20 text-indigo-300">📊</span>
+                <div>
+                  <h3 class="font-heading font-black text-sm text-white">Attendance Health</h3>
+                  <span class="text-[10px] text-slate-400 font-medium">Minimum target: 75%</span>
+                </div>
+              </div>
+              <span id="dash-attendance-badge" class="px-2 py-0.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                🟢 Safe
+              </span>
+            </div>
+            
+            <div class="my-3">
+              <div class="flex items-baseline justify-between mb-1.5">
+                <span class="text-xs text-slate-300 font-medium">Overall Attendance</span>
+                <span id="dash-attendance-percent" class="text-2xl font-black font-heading text-white">78%</span>
+              </div>
+              <div class="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
+                <div id="dash-attendance-bar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full transition-all duration-700" style="width: 78%;"></div>
+              </div>
+            </div>
+
+            <p id="dash-attendance-advice" class="text-xs font-semibold text-amber-300 flex items-center gap-1.5 mt-2">
+              <span>⚠️ Attend a few more classes to stay chill!</span>
+            </p>
+            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-indigo-300 font-bold group-hover:translate-x-1 transition">
+              <span>Manage all subjects &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 2: 📝 Assignments Deadline -->
+          <div onclick="App.navigate('assignments')" class="glass-card rounded-2xl p-5 border border-white/15 hover:border-rose-400/50 transition cursor-pointer group shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl p-2 rounded-xl bg-rose-500/20 text-rose-300">📝</span>
+                <div>
+                  <h3 class="font-heading font-black text-sm text-white">Assignments</h3>
+                  <span class="text-[10px] text-slate-400 font-medium">Pending submissions</span>
+                </div>
+              </div>
+              <span id="dash-assignments-pending" class="px-2 py-0.5 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                3 Pending
+              </span>
+            </div>
+
+            <div class="my-3 space-y-1">
+              <div class="text-xs text-slate-400 font-medium">Next critical deadline:</div>
+              <div id="dash-next-assignment-title" class="text-base font-extrabold text-white line-clamp-1">DBMS ER Diagram Project</div>
+              <div id="dash-next-assignment-time" class="text-xs font-bold text-rose-400 flex items-center gap-1">
+                <span>🔥 DBMS — 2 days left</span>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-rose-300 font-bold group-hover:translate-x-1 transition">
+              <span>View assignment countdown &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 3: 🍔 Canteen Status -->
+          <div onclick="App.navigate('canteen')" class="glass-card rounded-2xl p-5 border border-white/15 hover:border-amber-400/50 transition cursor-pointer group shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl p-2 rounded-xl bg-amber-500/20 text-amber-300">🍔</span>
+                <div>
+                  <h3 class="font-heading font-black text-sm text-white">Campus Canteen</h3>
+                  <span class="text-[10px] text-slate-400 font-medium">08:00 AM – 06:00 PM</span>
+                </div>
+              </div>
+              <span id="dash-canteen-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 🟢 OPEN
+              </span>
+            </div>
+
+            <div class="my-3 space-y-1">
+              <div class="text-xs text-slate-400 font-medium">Survival fuel status:</div>
+              <div id="dash-canteen-menu-headline" class="text-sm font-bold text-white">
+                🍜 Maggi + Cold Drink available
+              </div>
+              <p id="dash-canteen-humor" class="text-xs text-amber-300 font-semibold italic">
+                “🍔 Your wallet is in danger.”
+              </p>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-amber-300 font-bold group-hover:translate-x-1 transition">
+              <span>Check menu & pricing &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 4: 📅 Today's Timetable -->
+          <div onclick="App.navigate('timetable')" class="glass-card rounded-2xl p-5 border border-white/15 hover:border-cyan-400/50 transition cursor-pointer group shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl p-2 rounded-xl bg-cyan-500/20 text-cyan-300">📅</span>
+                <div>
+                  <h3 class="font-heading font-black text-sm text-white">Today's Timetable</h3>
+                  <span id="dash-today-name" class="text-[10px] text-cyan-300 font-bold">Wednesday Schedule</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-slate-400">5 Classes</span>
+            </div>
+
+            <!-- Mini List of classes -->
+            <div id="dash-timetable-mini-list" class="space-y-1.5 my-2 font-mono text-xs">
+              <div class="flex justify-between items-center py-1 px-2 rounded-lg bg-white/5">
+                <span class="font-bold text-white">09:00</span>
+                <span class="text-slate-300">DBMS (Room 302)</span>
+              </div>
+              <div class="flex justify-between items-center py-1 px-2 rounded-lg bg-white/5">
+                <span class="font-bold text-white">10:00</span>
+                <span class="text-slate-300">Data Structures</span>
+              </div>
+              <div class="flex justify-between items-center py-1 px-2 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/20">
+                <span class="font-bold">11:00</span>
+                <span>Break / Canteen Rush ☕</span>
+              </div>
+              <div class="flex justify-between items-center py-1 px-2 rounded-lg bg-white/5">
+                <span class="font-bold text-white">12:00</span>
+                <span class="text-slate-300">OOP / Java</span>
+              </div>
+              <div class="flex justify-between items-center py-1 px-2 rounded-lg bg-white/5">
+                <span class="font-bold text-white">02:00</span>
+                <span class="text-slate-300">COA Lab</span>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-cyan-300 font-bold group-hover:translate-x-1 transition">
+              <span>View full weekly schedule &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 5: ⏳ Next Exam Countdown -->
+          <div onclick="App.navigate('exams')" class="glass-card rounded-2xl p-5 border border-white/15 hover:border-purple-400/50 transition cursor-pointer group shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl p-2 rounded-xl bg-purple-500/20 text-purple-300">⏳</span>
+                <div>
+                  <h3 class="font-heading font-black text-sm text-white">Next Exam</h3>
+                  <span class="text-[10px] text-slate-400 font-medium">Final & Midterm Tracker</span>
+                </div>
+              </div>
+              <span id="dash-exam-urgency-badge" class="px-2 py-0.5 rounded-full text-xs font-black bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                Approaching 💀
+              </span>
+            </div>
+
+            <div class="my-2 space-y-1">
+              <div id="dash-next-exam-subject" class="text-lg font-black text-white">Java OOP Exam</div>
+              <div class="text-xs text-slate-400">Exam Hall: CS Building Room 401</div>
+
+              <!-- Live dynamic ticking clock -->
+              <div class="grid grid-cols-4 gap-1 text-center pt-2">
+                <div class="p-1.5 rounded-xl bg-white/10">
+                  <div id="dash-exam-days" class="text-base font-black text-white">12</div>
+                  <div class="text-[9px] text-slate-400 uppercase font-bold">Days</div>
+                </div>
+                <div class="p-1.5 rounded-xl bg-white/10">
+                  <div id="dash-exam-hours" class="text-base font-black text-white">06</div>
+                  <div class="text-[9px] text-slate-400 uppercase font-bold">Hours</div>
+                </div>
+                <div class="p-1.5 rounded-xl bg-white/10">
+                  <div id="dash-exam-mins" class="text-base font-black text-white">32</div>
+                  <div class="text-[9px] text-slate-400 uppercase font-bold">Mins</div>
+                </div>
+                <div class="p-1.5 rounded-xl bg-white/10">
+                  <div id="dash-exam-secs" class="text-base font-black text-amber-400 font-mono">18</div>
+                  <div class="text-[9px] text-slate-400 uppercase font-bold">Secs</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-purple-300 font-bold group-hover:translate-x-1 transition">
+              <span>View all scheduled exams &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card 6: 😂 SHOULD I SLEEP OR STUDY? (Large Interactive Hero Button) -->
+          <div class="glass-card rounded-2xl p-5 border-2 border-amber-400/40 shadow-2xl relative overflow-hidden flex flex-col justify-between bg-gradient-to-br from-amber-500/10 via-slate-900/60 to-rose-500/10">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-2xl p-2 rounded-xl bg-amber-500/20 text-amber-300">😂</span>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-400 text-slate-900">
+                  SURVIVAL AI
+                </span>
+              </div>
+              <h3 class="font-heading font-black text-lg text-white">
+                Should I Sleep or Study?
+              </h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Stuck between academic panic and catastrophic exhaustion? Let the survival algorithm decide your fate.
+              </p>
+            </div>
+
+            <!-- Funny Decision Output Box -->
+            <div id="dash-sleep-output" class="hidden my-3 p-3.5 rounded-2xl bg-slate-900/80 border border-amber-400/40 text-center animate-bounce-subtle">
+              <div id="dash-sleep-verdict-title" class="text-sm font-black text-amber-300">😴 SLEEP!</div>
+              <p id="dash-sleep-verdict-text" class="text-xs text-slate-200 mt-1">“Your brain has officially submitted a leave application.”</p>
+            </div>
+
+            <div class="pt-3">
+              <button onclick="App.askSleepOrStudyQuick()" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-white font-extrabold text-sm shadow-xl active:scale-[0.98] transition flex items-center justify-center gap-2">
+                <span>😂 ASK THE SURVIVAL AI</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- 📊 PAGE 2: ATTENDANCE CALCULATOR -->
+      <!-- ====================================================== -->
+      <section id="page-attendance" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <!-- Header & Action Bar -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-bold mb-2">
+              <span>75% Minimum University Threshold</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white flex items-center gap-2">
+              <span>📊</span> Attendance Calculator
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1">
+              Calculate bunk allowance and mandatory classes required to reach 75%.
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="App.openAddSubjectModal()" class="py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition flex items-center gap-1.5 active:scale-95">
+              <span>➕</span> Add Subject
+            </button>
+          </div>
+        </div>
+
+        <!-- Overall Health Banner -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass-card rounded-2xl p-4 border border-white/15">
+            <span class="text-xs text-slate-400 font-medium">Aggregated Attendance</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="att-total-percent" class="text-3xl font-black font-heading text-white">78.4%</span>
+              <span id="att-total-status-badge" class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300">Safe</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1" id="att-total-ratio">156 / 199 total lectures attended</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 border border-white/15">
+            <span class="text-xs text-slate-400 font-medium">Safe Bunk Allowance</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="att-safe-bunks-count" class="text-3xl font-black font-heading text-emerald-400">9</span>
+              <span class="text-xs text-slate-300 font-bold">lectures</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Total classes you can skip without going under 75%</p>
+          </div>
+
+          <div class="glass-card rounded-2xl p-4 border border-white/15">
+            <span class="text-xs text-slate-400 font-medium">Shortage Rescue Required</span>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="att-shortage-rescue-count" class="text-3xl font-black font-heading text-rose-400">4</span>
+              <span class="text-xs text-slate-300 font-bold">classes</span>
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1">Consecutive attendance needed in danger subjects</p>
+          </div>
+        </div>
+
+        <!-- Subject Attendance Cards Grid -->
+        <div id="attendance-subjects-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Standalone Interactive Bunk Simulator -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl shadow-xl">
+          <h3 class="font-heading font-black text-lg text-white mb-2 flex items-center gap-2">
+            <span>🧮</span> Quick Bunk / Recovery Simulator
+          </h3>
+          <p class="text-xs text-slate-300 mb-4">
+            Test hypothetical scenarios before you decide to bunk that 8:00 AM class.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Total Classes Conducted</label>
+              <input type="number" id="sim-total" value="40" min="1" oninput="App.calculateSimulator()"
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Classes Attended</label>
+              <input type="number" id="sim-attended" value="32" min="0" oninput="App.calculateSimulator()"
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-1">Target %</label>
+              <input type="number" id="sim-target" value="75" min="50" max="100" oninput="App.calculateSimulator()"
+                class="w-full px-3 py-2 rounded-xl bg-slate-900/70 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
+          </div>
+
+          <div id="sim-result-card" class="mt-4 p-4 rounded-2xl bg-white/10 border border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="text-xs text-slate-400 font-medium">Calculated Percentage</div>
+              <div id="sim-percent-text" class="text-2xl font-black text-emerald-400 font-heading">80.0% — 🟢 Safe</div>
+            </div>
+            <div id="sim-advice-text" class="text-xs font-bold text-amber-300 sm:text-right">
+              You can safely miss 2 more classes! 😎
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- 📝 PAGE 3: ASSIGNMENT COUNTDOWN -->
+      <!-- ====================================================== -->
+      <section id="page-assignments" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <!-- Action Header -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 text-rose-300 text-xs font-bold mb-2">
+              <span>Deadlines Approach Faster Than They Appear</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white flex items-center gap-2">
+              <span>📝</span> Assignment Countdown
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1">
+              Track university submissions sorted automatically by closest deadline.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="App.openAddAssignmentModal()" class="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-lg shadow-rose-600/30 transition flex items-center gap-1.5 active:scale-95">
+              <span>➕</span> Add Assignment
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Pills -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="App.filterAssignments('all')" data-assign-filter="all" class="assign-filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">
+            All Assignments
+          </button>
+          <button onclick="App.filterAssignments('urgent')" data-assign-filter="urgent" class="assign-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-slate-300 transition">
+            🔥 Due Today / Soon
+          </button>
+          <button onclick="App.filterAssignments('pending')" data-assign-filter="pending" class="assign-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-slate-300 transition">
+            ⏳ Pending
+          </button>
+          <button onclick="App.filterAssignments('completed')" data-assign-filter="completed" class="assign-filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/15 text-slate-300 transition">
+            ✅ Completed
+          </button>
+        </div>
+
+        <!-- Assignments List -->
+        <div id="assignments-list" class="space-y-3.5">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- 🍔 PAGE 4: CANTEEN STATUS -->
+      <!-- ====================================================== -->
+      <section id="page-canteen" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <!-- Hero Canteen Status Card -->
+        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-white/15 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-3xl">🍔</span>
+                <h2 class="text-2xl sm:text-4xl font-black font-heading text-white">
+                  CANTEEN STATUS
+                </h2>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 font-medium">
+                Campus Fuel Station • Operating Hours: <span class="text-white font-bold">08:00 AM – 06:00 PM</span>
+              </p>
+
+              <!-- Funny Message -->
+              <div class="mt-4 p-3.5 rounded-2xl bg-white/10 border border-white/15 inline-block">
+                <div id="canteen-funny-message" class="text-sm sm:text-base font-extrabold text-amber-300">
+                  “🍔 Your wallet is in danger.”
+                </div>
+              </div>
+            </div>
+
+            <!-- Canteen Status Toggle & Live Badge -->
+            <div class="flex-shrink-0 flex flex-col items-center sm:items-end justify-center gap-3">
+              <div id="canteen-hero-badge" class="px-6 py-3 rounded-2xl text-xl sm:text-2xl font-black font-heading bg-emerald-500/20 text-emerald-300 border-2 border-emerald-500/40 shadow-xl flex items-center gap-2">
+                <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="canteen-hero-text">🟢 OPEN</span>
+              </div>
+
+              <!-- Interactive Switch -->
+              <div class="flex items-center gap-2 bg-slate-900/60 p-2 rounded-2xl border border-white/10">
+                <span class="text-xs font-bold text-slate-300">Canteen Toggle:</span>
+                <button onclick="App.toggleCanteenStatus()" id="canteen-toggle-action-btn" class="px-3 py-1 rounded-xl text-xs font-black bg-indigo-600 hover:bg-indigo-500 text-white transition">
+                  Switch to CLOSED
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canteen Menu Section -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-heading font-black text-xl text-white flex items-center gap-2">
+                <span>🍜</span> Official Student Survival Menu
+              </h3>
+              <p class="text-xs text-slate-400">Fixed prices for surviving back-to-back lectures</p>
+            </div>
+            <span class="text-xs font-bold text-amber-300 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">
+              UPI Accepted 📱
+            </span>
+          </div>
+
+          <div id="canteen-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Sample Menu Items rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Canteen Order / Bunk Cost Estimator -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl shadow-xl">
+          <h4 class="font-heading font-black text-base text-white mb-2 flex items-center gap-2">
+            <span>🧾</span> Canteen Bill & Bunk Calculator
+          </h4>
+          <p class="text-xs text-slate-300 mb-4">
+            Pick your lecture survival snacks and calculate the damage to your pocket money.
+          </p>
+          <div id="canteen-calculator-items" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+            <!-- Checkbox snacks -->
+          </div>
+          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+            <span class="text-xs text-slate-300 font-bold">Total Survival Damage:</span>
+            <span id="canteen-total-bill" class="text-2xl font-black font-heading text-amber-400">₹0</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- 📅 PAGE 5: TIMETABLE -->
+      <!-- ====================================================== -->
+      <section id="page-timetable" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <!-- Header -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/30 text-cyan-300 text-xs font-bold mb-2">
+              <span>Weekly Class Schedule</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white flex items-center gap-2">
+              <span>📅</span> Weekly Timetable
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1">
+              Current day is highlighted automatically. Never miss attendance again!
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="App.openAddClassModal()" class="py-2.5 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/30 transition flex items-center gap-1.5 active:scale-95">
+              <span>➕</span> Add Class
+            </button>
+          </div>
+        </div>
+
+        <!-- Day Selector Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <button onclick="App.selectTimetableDay('Monday')" data-day="Monday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Monday
+          </button>
+          <button onclick="App.selectTimetableDay('Tuesday')" data-day="Tuesday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Tuesday
+          </button>
+          <button onclick="App.selectTimetableDay('Wednesday')" data-day="Wednesday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Wednesday
+          </button>
+          <button onclick="App.selectTimetableDay('Thursday')" data-day="Thursday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Thursday
+          </button>
+          <button onclick="App.selectTimetableDay('Friday')" data-day="Friday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Friday
+          </button>
+          <button onclick="App.selectTimetableDay('Saturday')" data-day="Saturday" class="timetable-day-btn px-4 py-2 rounded-xl text-xs font-bold transition flex-shrink-0">
+            Saturday
+          </button>
+        </div>
+
+        <!-- Schedule Items for Selected Day -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl shadow-xl">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+            <h3 id="timetable-selected-day-heading" class="font-heading font-black text-lg text-white">
+              Wednesday's Schedule
+            </h3>
+            <span id="timetable-classes-count" class="text-xs text-indigo-300 font-bold">5 Lectures</span>
+          </div>
+
+          <div id="timetable-day-list" class="space-y-3">
+            <!-- Classes rendered by JavaScript -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- ⏳ PAGE 6: EXAM COUNTDOWN -->
+      <!-- ====================================================== -->
+      <section id="page-exams" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <!-- Header -->
+        <div class="glass-card rounded-3xl p-6 border border-white/15 backdrop-blur-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-xs font-bold mb-2">
+              <span>Live Ticking Clocks • Days, Hours, Mins, Secs</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white flex items-center gap-2">
+              <span>⏳</span> Exam Countdown
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1">
+              Real-time countdown ticking down every second. Academic comeback begins now! 🔥
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="App.openAddExamModal()" class="py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-600/30 transition flex items-center gap-1.5 active:scale-95">
+              <span>➕</span> Add Exam
+            </button>
+          </div>
+        </div>
+
+        <!-- Exams Countdown Cards List -->
+        <div id="exams-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Populated by JavaScript with live tickers -->
+        </div>
+
+      </section>
+
+      <!-- ====================================================== -->
+      <!-- 😂 PAGE 7: SLEEP OR STUDY (DEDICATED FULL FEATURE VIEW) -->
+      <!-- ====================================================== -->
+      <section id="page-sleep" class="page-section hidden space-y-6 animate-fade-in">
+        
+        <div class="max-w-2xl mx-auto glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-400/30 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+          <div class="text-center mb-6">
+            <span class="text-4xl p-3 rounded-2xl bg-amber-500/20 text-amber-300 inline-block mb-3">😂</span>
+            <h2 class="text-2xl sm:text-3xl font-black font-heading text-white">
+              Should I Sleep or Study?
+            </h2>
+            <p class="text-xs sm:text-sm text-indigo-200 mt-1">
+              Collegiate Neural Diagnostic Engine for Exhausted Students
+            </p>
+          </div>
+
+          <!-- Diagnostic Inputs -->
+          <div class="space-y-5 bg-white/5 p-5 rounded-2xl border border-white/10">
+            <div>
+              <div class="flex justify-between text-xs font-bold text-slate-300 mb-1">
+                <span>😴 Hours of sleep last night:</span>
+                <span id="sleep-hours-val" class="text-amber-400 font-mono">4 Hours</span>
+              </div>
+              <input type="range" id="sleep-hours-slider" min="0" max="12" value="4" oninput="App.updateSleepHoursVal()"
+                class="w-full accent-amber-500 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                <span>0h (Zombie)</span>
+                <span>6h (Normal)</span>
+                <span>12h (Hibernation)</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-bold text-slate-300 mb-1">
+                <span>📚 Pending syllabus / assignment urgency:</span>
+                <span id="sleep-syllabus-val" class="text-rose-400 font-mono">70% Pending</span>
+              </div>
+              <input type="range" id="sleep-syllabus-slider" min="0" max="100" value="70" oninput="App.updateSleepSyllabusVal()"
+                class="w-full accent-rose-500 bg-slate-800 rounded-lg cursor-pointer">
+              <div class="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+                <span>0% (Prepared)</span>
+                <span>50% (Sweating)</span>
+                <span>100% (God Help Me)</span>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-300 mb-2">🧠 Current Brain Status:</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" onclick="App.selectBrainStatus('zombie')" data-brain="zombie" class="brain-btn active p-2.5 rounded-xl border border-white/15 bg-white/10 text-center text-xs font-bold text-white hover:bg-white/20 transition">
+                  🧟 Zombie
+                </button>
+                <button type="button" onclick="App.selectBrainStatus('drowsy')" data-brain="drowsy" class="brain-btn p-2.5 rounded-xl border border-white/15 bg-white/5 text-center text-xs font-bold text-slate-300 hover:bg-white/20 transition">
+                  🥱 Drowsy
+                </button>
+                <button type="button" onclick="App.selectBrainStatus('normal')" data-brain="normal" class="brain-btn p-2.5 rounded-xl border border-white/15 bg-white/5 text-center text-xs font-bold text-slate-300 hover:bg-white/20 transition">
+                  🙂 OK
+                </button>
+                <button type="button" onclick="App.selectBrainStatus('caffeinated')" data-brain="caffeinated" class="brain-btn p-2.5 rounded-xl border border-white/15 bg-white/5 text-center text-xs font-bold text-slate-300 hover:bg-white/20 transition">
+                  ⚡ Caffeinated
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-6">
+            <button onclick="App.askSurvivalAI()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-rose-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-white font-black text-sm shadow-xl shadow-amber-500/20 active:scale-[0.98] transition flex items-center justify-center gap-2">
+              <span>😂 ASK THE SURVIVAL AI</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Result Display -->
+          <div id="sleep-result-container" class="hidden mt-6 p-5 rounded-2xl border-2 text-center animate-fade-in">
+            <div id="sleep-result-badge" class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase mb-2"></div>
+            <div id="sleep-result-title" class="text-xl sm:text-2xl font-black font-heading text-white"></div>
+            <p id="sleep-result-desc" class="text-xs sm:text-sm text-slate-200 mt-2 font-medium leading-relaxed"></p>
+
+            <!-- 20-Minute Power Nap Option -->
+            <div id="nap-timer-widget" class="hidden mt-4 pt-4 border-t border-white/10 flex flex-col items-center">
+              <span class="text-xs text-indigo-300 font-bold mb-2">⏱️ 20-Minute Emergency Power Nap Timer</span>
+              <div id="nap-time-display" class="text-2xl font-mono font-black text-amber-300">20:00</div>
+              <div class="flex items-center gap-2 mt-2">
+                <button onclick="App.startNapTimer()" id="nap-start-btn" class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white">Start Nap 😴</button>
+                <button onclick="App.resetNapTimer()" class="px-3 py-1 rounded-lg text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-300">Reset</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- ======================================================== -->
+    <!-- FOOTER (App Name & Required Taglines) -->
+    <!-- ======================================================== -->
+    <footer class="mt-auto border-t border-white/10 bg-slate-950/80 backdrop-blur-xl py-6 px-4 text-center text-xs text-slate-400">
+      <div class="max-w-7xl mx-auto flex flex-col items-center justify-center gap-2">
+        <div class="flex items-center gap-2 text-white font-extrabold font-heading text-sm">
+          <span>🎓</span> Student Survival App 🧑🎓🔥
+        </div>
+        <p class="text-indigo-300 font-semibold">
+          “Made by students, for students ❤️”
+        </p>
+        <p class="text-amber-300 font-bold">
+          “Now go study... or at least pretend to. 😂”
+        </p>
+        <p class="text-[11px] text-slate-500 mt-1">
+          Survive college. One deadline at a time. • Powered by Pure Caffeine ☕
+        </p>
+      </div>
+    </footer>
+
+    <!-- ======================================================== -->
+    <!-- 📱 9. MOBILE BOTTOM NAVIGATION (Touch-friendly & sleek) -->
+    <!-- ======================================================== -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-30 glass-nav border-t border-white/10 backdrop-blur-2xl px-2 py-1.5 flex items-center justify-around shadow-2xl">
+      <button onclick="App.navigate('home')" data-tab="home" class="mobile-nav-btn active flex flex-col items-center py-1 px-2.5 rounded-xl transition text-[10px] font-bold">
+        <span class="text-lg">🏠</span>
+        <span>Home</span>
+      </button>
+
+      <button onclick="App.navigate('attendance')" data-tab="attendance" class="mobile-nav-btn flex flex-col items-center py-1 px-2.5 rounded-xl transition text-[10px] font-bold">
+        <span class="text-lg">📊</span>
+        <span>Attend</span>
+      </button>
+
+      <button onclick="App.navigate('assignments')" data-tab="assignments" class="mobile-nav-btn flex flex-col items-center py-1 px-2.5 rounded-xl transition text-[10px] font-bold relative">
+        <span class="text-lg">📝</span>
+        <span>Tasks</span>
+        <span id="mobile-badge-tasks" class="absolute top-0 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-slate-900"></span>
+      </button>
+
+      <button onclick="App.navigate('timetable')" data-tab="timetable" class="mobile-nav-btn flex flex-col items-center py-1 px-2.5 rounded-xl transition text-[10px] font-bold">
+        <span class="text-lg">📅</span>
+        <span>Schedule</span>
+      </button>
+
+      <button onclick="App.navigate('exams')" data-tab="exams" class="mobile-nav-btn flex flex-col items-center py-1 px-2.5 rounded-xl transition text-[10px] font-bold">
+        <span class="text-lg">⏳</span>
+        <span>Exams</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODALS -->
+  <!-- ======================================================== -->
+
+  <!-- MODAL: ADD / EDIT SUBJECT -->
+  <div id="modal-subject" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 border border-white/20 text-white shadow-2xl animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="modal-subject-title" class="text-lg font-black font-heading text-white">➕ Add Subject</h3>
+        <button onclick="App.closeModal('modal-subject')" class="p-1 rounded-lg text-slate-400 hover:text-white">&times;</button>
+      </div>
+      <form id="form-subject" onsubmit="App.saveSubject(event)" class="space-y-4">
+        <input type="hidden" id="sub-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Subject Name & Code</label>
+          <input type="text" id="sub-name" placeholder="e.g. DBMS (CS301)" required
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Total Classes</label>
+            <input type="number" id="sub-total" min="1" value="40" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Attended Classes</label>
+            <input type="number" id="sub-attended" min="0" value="32" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="App.closeModal('modal-subject')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-lg">Save Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT ASSIGNMENT -->
+  <div id="modal-assignment" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 border border-white/20 text-white shadow-2xl animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="modal-assign-title" class="text-lg font-black font-heading text-white">➕ Add Assignment</h3>
+        <button onclick="App.closeModal('modal-assignment')" class="p-1 rounded-lg text-slate-400 hover:text-white">&times;</button>
+      </div>
+      <form id="form-assignment" onsubmit="App.saveAssignment(event)" class="space-y-3.5">
+        <input type="hidden" id="assign-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Assignment Title</label>
+          <input type="text" id="assign-title" placeholder="e.g. Normalization & ER Model" required
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Subject</label>
+          <select id="assign-subject" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="DBMS">DBMS</option>
+            <option value="Data Structures (DS)">Data Structures (DS)</option>
+            <option value="Digital System Design (DSD)">Digital System Design (DSD)</option>
+            <option value="Value Added Course (VAC)">Value Added Course (VAC)</option>
+            <option value="OOP / Java">OOP / Java</option>
+            <option value="Computer Organization & Architecture (COA)">Computer Organization & Architecture (COA)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Due Date</label>
+            <input type="date" id="assign-date" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Priority</label>
+            <select id="assign-priority" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="High">🔥 High / Urgent</option>
+              <option value="Medium" selected>⚠️ Medium</option>
+              <option value="Low">🟢 Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="App.closeModal('modal-assignment')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white shadow-lg">Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT CLASS (TIMETABLE) -->
+  <div id="modal-class" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 border border-white/20 text-white shadow-2xl animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="modal-class-title" class="text-lg font-black font-heading text-white">➕ Add Class</h3>
+        <button onclick="App.closeModal('modal-class')" class="p-1 rounded-lg text-slate-400 hover:text-white">&times;</button>
+      </div>
+      <form id="form-class" onsubmit="App.saveClass(event)" class="space-y-3.5">
+        <input type="hidden" id="class-id">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Day</label>
+            <select id="class-day" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Time Slot</label>
+            <input type="text" id="class-time" placeholder="e.g. 09:00 - 10:00" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Subject</label>
+          <input type="text" id="class-subject" placeholder="e.g. DBMS Lecture" required
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Room / Hall</label>
+            <input type="text" id="class-room" placeholder="e.g. Room 302" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Professor</label>
+            <input type="text" id="class-faculty" placeholder="e.g. Dr. Verma"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="App.closeModal('modal-class')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-xs font-bold text-white shadow-lg">Save Class</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD / EDIT EXAM -->
+  <div id="modal-exam" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 border border-white/20 text-white shadow-2xl animate-fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <h3 id="modal-exam-title" class="text-lg font-black font-heading text-white">➕ Add Exam</h3>
+        <button onclick="App.closeModal('modal-exam')" class="p-1 rounded-lg text-slate-400 hover:text-white">&times;</button>
+      </div>
+      <form id="form-exam" onsubmit="App.saveExam(event)" class="space-y-3.5">
+        <input type="hidden" id="exam-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Subject Name</label>
+          <select id="exam-subject" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="DBMS">DBMS</option>
+            <option value="Data Structures (DS)">Data Structures (DS)</option>
+            <option value="Digital System Design (DSD)">Digital System Design (DSD)</option>
+            <option value="Value Added Course (VAC)">Value Added Course (VAC)</option>
+            <option value="OOP / Java">OOP / Java</option>
+            <option value="Computer Organization & Architecture (COA)">Computer Organization & Architecture (COA)</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Exam Date</label>
+            <input type="date" id="exam-date" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 mb-1">Exam Time</label>
+            <input type="time" id="exam-time" value="10:00" required
+              class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Exam Hall / Room</label>
+          <input type="text" id="exam-hall" placeholder="e.g. Main Auditorium Hall B" required
+            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="flex items-center justify-end gap-2 pt-2">
+          <button type="button" onclick="App.closeModal('modal-exam')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-300">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white shadow-lg">Save Exam</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: 12. PROFILE / SETTINGS & LOGOUT -->
+  <div id="modal-profile" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 border border-white/20 text-white shadow-2xl animate-fade-in relative">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+        <h3 class="text-lg font-black font-heading text-white flex items-center gap-2">
+          <span>👤</span> Student Profile
+        </h3>
+        <button onclick="App.closeModal('modal-profile')" class="p-1 rounded-lg text-slate-400 hover:text-white">&times;</button>
+      </div>
+
+      <div class="flex items-center gap-4 mb-5 p-3 rounded-2xl bg-white/5 border border-white/10">
+        <div class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-indigo-400 shadow flex-shrink-0">
+          <img src="assets/life-of-a-student.jpg" alt="Profile Avatar" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <h4 id="prof-display-name" class="font-heading font-black text-base text-white">Aarav Sharma</h4>
+          <p id="prof-display-email" class="text-xs text-indigo-300 font-mono">aarav@college.edu</p>
+          <span class="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+            Computer Science • Sem 4
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Edit Profile -->
+      <form onsubmit="App.updateProfile(event)" class="space-y-3 mb-5">
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Student Name</label>
+          <input type="text" id="prof-input-name" required
+            class="w-full px-3 py-2 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-300 mb-1">Email</label>
+          <input type="email" id="prof-input-email" required
+            class="w-full px-3 py-2 rounded-xl bg-slate-900/80 border border-white/20 text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <button type="submit" class="w-full py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow transition">
+          ✏️ Save Profile Updates
+        </button>
+      </form>
+
+      <!-- App Utility Actions -->
+      <div class="pt-3 border-t border-white/10 space-y-2">
+        <button onclick="App.resetToSampleData()" class="w-full py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-300 text-xs font-bold transition flex items-center justify-center gap-2">
+          <span>🔄</span> Reset to Realistic Sample College Data
+        </button>
+
+        <button onclick="App.promptLogout()" class="w-full py-2.5 px-3 rounded-xl bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 text-rose-200 font-bold text-xs transition flex items-center justify-center gap-2">
+          <span>🚪</span> Logout of Survival Mode
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: 12. LOGOUT CONFIRMATION DIALOG -->
+  <div id="modal-logout-confirm" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="w-full max-w-sm glass-card rounded-3xl p-6 border-2 border-rose-500/40 text-white shadow-2xl text-center animate-fade-in">
+      <div class="w-16 h-16 rounded-2xl overflow-hidden border-2 border-rose-400 mx-auto mb-3 shadow-xl">
+        <img src="assets/life-of-a-student.jpg" alt="Life of a Student Logo" class="w-full h-full object-cover">
+      </div>
+      <h3 class="text-lg font-black font-heading text-white">
+        Are you sure you want to escape Survival Mode? 😂
+      </h3>
+      <p class="text-xs text-slate-300 mt-2">
+        Your assignments will miss you, and the canteen samosas might get cold.
+      </p>
+
+      <div class="grid grid-cols-2 gap-3 mt-6">
+        <button onclick="App.closeModal('modal-logout-confirm')" class="py-2.5 px-4 rounded-xl bg-white/15 hover:bg-white/20 font-bold text-xs text-white transition">
+          Stay 😭
+        </button>
+        <button onclick="App.confirmLogout()" class="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 font-bold text-xs text-white shadow-lg shadow-rose-600/40 transition">
+          Logout 🚪
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SLEEP OR STUDY INTERACTIVE POPUP -->
+  <div id="modal-sleep-quick" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="w-full max-w-md glass-card rounded-3xl p-6 sm:p-7 border-2 border-amber-400/50 text-white shadow-2xl text-center animate-bounce-subtle">
+      <span class="text-4xl inline-block mb-2">😂</span>
+      <h3 class="text-xl font-black font-heading text-white">Survival AI Verdict</h3>
+      
+      <div class="my-5 p-4 rounded-2xl bg-white/10 border border-white/20">
+        <div id="quick-sleep-verdict-title" class="text-lg font-black text-amber-300">📚 STUDY!</div>
+        <p id="quick-sleep-verdict-text" class="text-xs sm:text-sm text-slate-200 mt-2 font-semibold leading-relaxed">
+          “Your exam is closer than you think.”
+        </p>
+      </div>
+
+      <div class="flex items-center justify-center gap-3">
+        <button onclick="App.askSleepOrStudyQuick()" class="py-2 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-900 font-extrabold text-xs transition flex items-center gap-1">
+          <span>🎲</span> Ask Again
+        </button>
+        <button onclick="App.closeModal('modal-sleep-quick')" class="py-2 px-4 rounded-xl bg-white/15 hover:bg-white/20 text-white font-bold text-xs transition">
+          Got it 🫡
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 🔔 MODAL: NOTIFICATION CENTER & REMINDER SETTINGS -->
+  <!-- ======================================================== -->
+  <div id="modal-notifications" class="fixed inset-0 z-50 hidden flex items-start justify-end p-4 sm:p-6 bg-black/60 backdrop-blur-sm">
+    <div class="w-full max-w-md glass-card rounded-3xl p-5 sm:p-6 border border-white/20 text-white shadow-2xl animate-fade-in my-auto sm:my-0 sm:mt-16 max-h-[85vh] flex flex-col">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl p-2 rounded-xl bg-indigo-500/20 text-indigo-300">🔔</span>
+          <div>
+            <h3 class="text-base font-black font-heading text-white">Pending Work Alerts</h3>
+            <p class="text-[11px] text-slate-400">Time-to-time collegiate survival reminders</p>
+          </div>
+        </div>
+        <button onclick="App.closeModal('modal-notifications')" class="p-1 rounded-lg text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <!-- Time-to-time Reminder Settings Card -->
+      <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 mb-4 space-y-2.5">
+        <div class="flex items-center justify-between text-xs font-bold text-slate-200">
+          <span class="flex items-center gap-1.5">
+            <span>⏰ Periodic Reminders:</span>
+          </span>
+          <select id="notif-interval-select" onchange="App.updateReminderInterval(this.value)" class="px-2 py-1 rounded-lg bg-slate-800 border border-white/20 text-[11px] font-bold text-amber-300 focus:outline-none">
+            <option value="1">Every 1 Min (Demo / Fast) 🔥</option>
+            <option value="3" selected>Every 3 Mins</option>
+            <option value="10">Every 10 Mins</option>
+            <option value="30">Every 30 Mins</option>
+            <option value="60">Every 1 Hour</option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-between text-[11px] text-slate-300">
+          <span>Browser Desktop Notifications:</span>
+          <button onclick="App.requestDesktopNotifications()" id="btn-desktop-notif" class="px-2.5 py-0.5 rounded-lg bg-indigo-600/50 hover:bg-indigo-600 border border-indigo-500/50 text-white font-bold transition">
+            Enable 🔔
+          </button>
+        </div>
+
+        <div class="pt-1 flex items-center justify-between">
+          <button onclick="App.triggerTestReminder()" class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500/20 to-rose-500/20 hover:from-amber-500/30 hover:to-rose-500/30 border border-amber-500/30 text-amber-300 font-extrabold text-xs transition flex items-center justify-center gap-1.5 active:scale-98">
+            <span>⚡ Trigger Pending Reminder Now</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Alerts List Container -->
+      <div class="flex-1 overflow-y-auto space-y-2.5 pr-1 max-h-[350px]" id="notif-center-list">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="pt-3 border-t border-white/10 mt-4 flex items-center justify-between gap-2">
+        <button onclick="App.showNotifBarAgain()" class="text-xs font-bold text-indigo-300 hover:text-white transition">
+          Show Top Bar 📌
+        </button>
+        <button onclick="App.closeModal('modal-notifications')" class="px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition">
+          Close
+        </button>
+      </div>
+
+  <!-- ======================================================== -->
+  <!-- 📋 MODAL: DEMO STUDENT CREDENTIALS CHEAT SHEET -->
+  <!-- ======================================================== -->
+  <div id="modal-demo-credentials" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div class="w-full max-w-xl glass-card rounded-3xl p-5 sm:p-6 border-2 border-indigo-400/40 text-white shadow-2xl animate-fade-in max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl p-2 rounded-xl bg-indigo-500/20 text-indigo-300">📋</span>
+          <div>
+            <h3 class="text-base sm:text-lg font-black font-heading text-white">Indian Student Demo Logins</h3>
+            <p class="text-xs text-slate-400">Pre-configured accounts for testing & college presentations</p>
+          </div>
+        </div>
+        <button onclick="App.closeModal('modal-demo-credentials')" class="p-1.5 rounded-lg text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-3 pr-1" id="demo-credentials-list">
+        <!-- Rendered by JS or static list -->
+        <!-- Aman Sharma -->
+        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-indigo-400/40 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">Aman Sharma</span>
+              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">80% Attendance 🟢</span>
+            </div>
+            <div class="text-[11px] text-slate-400">🏛️ Delhi Technological University (DTU) • CSE Sem 4</div>
+            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
+              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">aman_sharma</code></span>
+              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">aman.sharma@college.edu</code></span>
+              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">password123</code></span>
+            </div>
+          </div>
+          <button onclick="App.quickDemoLogin('aman_sharma'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
+            <span>⚡ 1-Click Login</span>
+          </button>
+        </div>
+
+        <!-- Priya Patel -->
+        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-rose-400/40 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">Priya Patel</span>
+              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">88% Attendance 🟢</span>
+            </div>
+            <div class="text-[11px] text-slate-400">🏛️ National Institute of Technology (NIT Trichy) • IT Sem 4</div>
+            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
+              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">priya_patel</code></span>
+              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">priya.patel@nit.ac.in</code></span>
+              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">priyapassword</code></span>
+            </div>
+          </div>
+          <button onclick="App.quickDemoLogin('priya_patel'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
+            <span>⚡ 1-Click Login</span>
+          </button>
+        </div>
+
+        <!-- Rahul Verma -->
+        <div class="p-3.5 rounded-2xl bg-rose-950/20 border border-rose-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-rose-400 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">Rahul Verma</span>
+              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-rose-500/30 text-rose-200 border border-rose-500/50 animate-pulse">65% Shortage 🔴</span>
+            </div>
+            <div class="text-[11px] text-slate-400">🏛️ Vellore Institute of Technology (VIT) • ECE Sem 4</div>
+            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
+              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">rahul_v</code></span>
+              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">rahul.verma@vit.edu.in</code></span>
+              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">rahulpass2026</code></span>
+            </div>
+          </div>
+          <button onclick="App.quickDemoLogin('rahul_v'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
+            <span>⚡ 1-Click Login</span>
+          </button>
+        </div>
+
+        <!-- Ananya Iyer -->
+        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-emerald-400/40 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">Ananya Iyer</span>
+              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">92% Topper ⭐</span>
+            </div>
+            <div class="text-[11px] text-slate-400">🏛️ BITS Pilani • AI & Data Science Sem 6</div>
+            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
+              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">ananya_iyer</code></span>
+              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">ananya.iyer@bits-pilani.ac.in</code></span>
+              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">ananyapass</code></span>
+            </div>
+          </div>
+          <button onclick="App.quickDemoLogin('ananya_iyer'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
+            <span>⚡ 1-Click Login</span>
+          </button>
+        </div>
+
+        <!-- Rohan Gupta -->
+        <div class="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-cyan-400/40 transition">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-white text-sm">Rohan Gupta</span>
+              <span class="px-2 py-0.2 rounded-full text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/30">72% Warning 🟡</span>
+            </div>
+            <div class="text-[11px] text-slate-400">🏛️ Indian Institute of Technology (IIT Delhi) • CSE Sem 4</div>
+            <div class="text-[11px] font-mono text-indigo-300 flex flex-wrap gap-2 pt-0.5">
+              <span>👤 User: <code class="bg-black/40 px-1.5 py-0.5 rounded text-amber-300 font-bold">rohan_gupta</code></span>
+              <span>📧 Email: <code class="bg-black/40 px-1.5 py-0.5 rounded text-white">rohan.gupta@iitd.ac.in</code></span>
+              <span>🔒 Pass: <code class="bg-black/40 px-1.5 py-0.5 rounded text-emerald-300 font-bold">rohanpass</code></span>
+            </div>
+          </div>
+          <button onclick="App.quickDemoLogin('rohan_gupta'); App.closeModal('modal-demo-credentials')" class="px-3.5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1 flex-shrink-0 active:scale-95">
+            <span>⚡ 1-Click Login</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 mt-3 flex justify-end">
+        <button onclick="App.closeModal('modal-demo-credentials')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition">
+          Close Cheat Sheet
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+  <!-- JavaScript Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

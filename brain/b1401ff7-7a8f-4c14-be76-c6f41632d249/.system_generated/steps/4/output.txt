@@ -1,0 +1,35 @@
+
+The command exited with code 0.
+Output:
+
+FullName                                                                                                      
+--------                                                                                                      
+C:\Users\DELL\.vscode\extensions\formulahendry.code-runner-0.12.2\images\alipay.png                           
+C:\Users\DELL\.vscode\extensions\formulahendry.code-runner-0.12.2\images\book.jpg                             
+C:\Users\DELL\.vscode\extensions\formulahendry.code-runner-0.12.2\images\logo.png                             
+C:\Users\DELL\.vscode\extensions\formulahendry.code-runner-0.12.2\images\WeChatPublicAccount.jpg              
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\cmake-commands-feature.png        
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\cmake-debugging-feature.png       
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\cmake-language-service-feature.png
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\cmake-tools-banner.png            
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\presets-support-feature.png       
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\project-outline-feature.png       
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\status-and-sidebar-feature.png    
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\tasks-feature.png                 
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\graphics\test-integration-feature.png      
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\icon_64.png                                
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\logo-margin-bottom.png                     
+C:\Users\DELL\.vscode\extensions\ms-vscode.cmake-tools-1.24.42\res\logo.png                                   
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpp-devtools-0.6.18\res\C++_128.png                                
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpp-devtools-0.6.18\res\C++_64.png                                 
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-1.34.4-win32-x64\LanguageCCPP_color_128x.png              
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-extension-pack-1.5.1\LanguageCCPP_color_128x.png          
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-themes-2.0.0\assets\dark.png                              
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-themes-2.0.0\assets\dark2017.png                          
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-themes-2.0.0\assets\LanguageCCPP_color_128x.png           
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-themes-2.0.0\assets\light.png                             
+C:\Users\DELL\.vscode\extensions\ms-vscode.cpptools-themes-2.0.0\assets\light2017.png                         
+C:\Users\DELL\OneDrive\Documents\IITM LOGO.jpg                                                                
+
+
+

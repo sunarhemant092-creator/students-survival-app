@@ -1,0 +1,11 @@
+
+The command exited with code 0.
+Output:
+
+Algorithm       Hash                                                                   Path                            
+---------       ----                                                                   ----                            
+SHA256          2C7B80E7BEEF2BBB237C8AD79D7E8E64D95674C700404999195DD4F18F76CF9C       C:\Users\DELL\.gemini\antigra...
+SHA256          2C7B80E7BEEF2BBB237C8AD79D7E8E64D95674C700404999195DD4F18F76CF9C       C:\Users\DELL\OneDrive\Deskto...
+
+
+

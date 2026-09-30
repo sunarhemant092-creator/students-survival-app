@@ -1,0 +1,90 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\scratch\student-survival-app\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -242,6 +242,7 @@
+         </nav>
+ 
+         <!-- Right: Profile, Survival Score & Sound -->
++        <!-- Right: Profile, Survival Score, Notifications & Sound -->
+         <div class="flex items-center gap-2 sm:gap-3">
+           <!-- Survival Score Chip (Desktop) -->
+           <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/15">
+@@ -248,6 +248,13 @@
+             <span id="header-survival-score" class="text-xs font-black text-amber-300">82/100</span>
+           </div>
+ 
++          <!-- 🔔 Notification Bell Button with Live Badge -->
++          <button onclick="App.toggleNotificationCenter()" id="notification-bell-btn" title="Pending Work Alerts & Reminders"
++            class="relative p-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-slate-300 hover:text-white transition text-xs flex items-center justify-center">
++            <span class="text-sm">🔔</span>
++            <span id="header-unread-alerts-count" class="absolute -top-1 -right-1 px-1.5 py-0.2 bg-rose-500 text-white rounded-full text-[10px] font-black shadow-lg pulse-badge">3</span>
++          </button>
++
+           <!-- Sound Mute/Unmute Toggle -->
+           <button onclick="App.toggleSound()" id="sound-toggle-btn" title="Toggle Sound FX" class="p-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-slate-300 hover:text-white transition text-xs">
+             🔊
+@@ -268,6 +268,62 @@
+     </header>
+ 
+     <!-- ======================================================== -->
++    <!-- 🔔 LIVE PENDING WORK NOTIFICATION BAR / TICKER -->
++    <!-- ======================================================== -->
++    <aside id="global-notification-bar" class="notification-bar sticky top-16 sm:top-20 z-20 w-full overflow-hidden text-xs text-white">
++      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex items-center justify-between gap-3">
++        
++        <!-- Left: Alert Icon + Urgency Tag + Live Message -->
++        <div class="flex items-center gap-2.5 min-w-0 flex-1">
++          <span id="notif-bar-icon" class="p-1 rounded-lg bg-rose-500/20 text-rose-300 text-sm flex-shrink-0 animate-bounce-subtle">
++            🚨
++          </span>
++          <span id="notif-bar-badge" class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-500/30 flex-shrink-0">
++            URGENT DEADLINE
++          </span>
++          <div class="min-w-0 flex-1">
++            <p id="notif-bar-message" class="font-semibold text-xs text-slate-100 truncate">
++              Loading pending work notifications...
++            </p>
++          </div>
++        </div>
++
++        <!-- Right: Time Left + Action Button + Ticker Controls + Dismiss -->
++        <div class="flex items-center gap-2 flex-shrink-0">
++          <span id="notif-bar-time" class="hidden md:inline-block text-[11px] font-mono text-amber-300 font-bold bg-white/10 px-2 py-0.5 rounded-md">
++            2 days left
++          </span>
++
++          <button id="notif-bar-action-btn" onclick="App.handleNotifBarAction()" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[11px] transition shadow flex items-center gap-1 active:scale-95">
++            <span>Do It Now 🚀</span>
++          </button>
++
++          <!-- Navigation Arrows -->
++          <div class="hidden sm:flex items-center gap-0.5 bg-black/30 rounded-lg p-0.5 border border-white/10">
++            <button onclick="App.prevNotif()" title="Previous Alert" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">&lt;</button>
++            <span id="notif-bar-counter" class="px-1 text-[10px] text-slate-400 font-mono font-bold">1/4</span>
++            <button onclick="App.nextNotif()" title="Next Alert" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">&gt;</button>
++          </div>
++
++          <!-- Pause/Play Auto-cycle -->
++          <button onclick="App.toggleNotifCycle()" id="notif-bar-cycle-btn" title="Pause / Resume Alert Cycle" class="p-1 text-slate-400 hover:text-white transition text-xs rounded hover:bg-white/10">
++            ⏸️
++          </button>
++
++          <!-- Dismiss Bar Button -->
++          <button onclick="App.dismissNotifBar()" title="Dismiss notification bar (Re-open anytime via 🔔 bell)" class="p-1 text-slate-400 hover:text-rose-400 transition text-sm rounded hover:bg-white/10">
++            &times;
++          </button>
++        </div>
++
++      </div>
++      <!-- Auto-cycle Progress Line -->
++      <div class="w-full bg-white/5 h-[2px]">
++        <div id="notif-progress-line" class="notification-progress h-full w-full"></div>
++      </div>
++    </aside>
++
++    <!-- ======================================================== -->
+     <!-- CONTENT PAGES CONTAINER -->
+     <!-- ======================================================== -->
+     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-12">
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

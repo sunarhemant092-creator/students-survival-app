@@ -1,0 +1,33 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\brain\b1401ff7-7a8f-4c14-be76-c6f41632d249\student_survival_app_showcase.md. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -105,6 +105,27 @@
+ 
+ ---
+ 
++## 🧑‍🎓 Indian Student Demo Accounts & Registration Engine
++
++The login screen now includes a dedicated **[ ➕ Create Account ]** tab alongside **1-Click Quick Demo Login** pills for 5 authentic Indian student personas:
++
++| Student Name | Username | College Email | Password | College / Branch | Sem | Status |
++| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
++| **Aman Sharma** | `aman_sharma` | `aman.sharma@college.edu` | `password123` | DTU • CSE | 4 | 🟢 80% Attendance (Safe) |
++| **Priya Patel** | `priya_patel` | `priya.patel@nit.ac.in` | `priyapassword` | NIT Trichy • IT | 4 | 🟢 88% Attendance (Safe) |
++| **Rahul Verma** | `rahul_v` | `rahul.verma@vit.edu.in` | `rahulpass2026` | VIT • ECE | 4 | 🔴 65% Shortage Alert |
++| **Ananya Iyer** | `ananya_iyer` | `ananya.iyer@bits-pilani.ac.in` | `ananyapass` | BITS Pilani • AI & DS | 6 | ⭐ 92% College Topper |
++| **Rohan Gupta** | `rohan_gupta` | `rohan.gupta@iitd.ac.in` | `rohanpass` | IIT Delhi • CSE | 4 | 🟡 72% Borderline Warning |
++
++### Key Features of Account Management:
++1. **Interactive Tab Switching**: Smooth toggle between `[ 🔑 Sign In ]` and `[ ➕ Create Account ]`.
++2. **Registration Form**: Captures Full Name, Username, College Email, Password, College/University, Branch, Semester, and Target Attendance % (75%, 80%, 85%, 90%).
++3. **Local Account Persistence**: Newly registered accounts are stored in `localStorage` under `registeredUsers`, allowing users to log out and log back in seamlessly with their custom credentials.
++4. **1-Click Demo Evaluation**: Click any of the student cards on the sign-in screen to instantly load that student's full semester data, subjects, attendance percentages, and personalized collegiate quotes!
++
++---
++
+ *Made by students, for students ❤️*  
+ *“Now go study... or at least pretend to. 😂”*
++
+ 
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.

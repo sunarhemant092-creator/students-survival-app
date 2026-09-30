@@ -1,0 +1,30 @@
+The following changes were made by the replace_file_content tool to: C:\Users\DELL\.gemini\antigravity\brain\b1401ff7-7a8f-4c14-be76-c6f41632d249\student_survival_app_showcase.md. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -77,7 +77,19 @@
+ - **Consecutive Attendance Needed to Escape Detention** ($< 75\%$):
+   $$\text{Classes Needed} = \left\lceil \frac{0.75 \times \text{Total} - \text{Attended}}{0.25} \right\rceil$$
+ 
+-### 2. 🎓 Academic Survival Score ($0 - 100$)
++### 2. 🔔 Real-Time Notification Bar & Time-to-Time Reminder Engine
++- **Sticky Top Notification Ticker**:
++  - Sits directly below the header with urgency color-coding (🔴 Critical Red, 🟡 Warning Amber, 🟣 Exam Purple).
++  - Automatically scans and surfaces upcoming deliverables (*“DBMS Normalization due in 2 days!”*), imminent exams (*“OOP / Java Exam in 12 days!”*), and attendance shortages (*“COA attendance is 60% — attend 21 classes!”*).
++  - Smooth auto-cycling progress line (cycles every 7 seconds) with manual previous `<` / next `>` arrows, pause/resume, and direct action jump buttons (*“Do It Now 🚀”*).
++- **Time-to-Time Periodic Reminders**:
++  - Configurable timer (1 min demo mode, 3 mins, 10 mins, 30 mins, 1 hour) that fires periodic check-in audio chimes and collegiate humor toasts.
++  - Native **Web Notification API** integration for desktop push notifications outside the browser tab.
++- **Notification Center Drawer**:
++  - Accessed via the 🔔 Bell icon in the top header with a live unread alert badge.
++  - Lists all pending tasks categorized by urgency with 1-click navigation.
++
++### 3. 🎓 Academic Survival Score ($0 - 100$)
+ - **Weighted Health Indicator**:
+   - Attendance Health ($45\%$ weight)
+   - Assignment Backlog ($35\%$ weight)
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+Markdown validation warnings were found in the artifact file you just created/edited:
+invalid image path "file:///C:/Users/DELL/.gemini/antigravity/brain/b1401ff7-7a8f-4c14-be76-c6f41632d249/life-of-a-student.jpg": image path must be absolute (start with /)
+Please fix these issues in your next edit to ensure the artifact is properly formatted.

@@ -1,0 +1,34 @@
+
+The command exited with code 0.
+Output:
+    if (!title || !dateVal) return;
+
+    const dueIso = new Date(dateVal + 'T23:59:00').toISOString();
+
+    if (id) {
+      const existing = state.assignments.find(a => a.id === id);
+      if (existing) {
+        existing.title = title;
+        existing.subject = subject;
+        existing.dueDate = dueIso;
+        existing.priority = priority;
+      }
+      showToast(`Updated assignment: ${title}!`, 'success');
+    } else {
+      const newAsg = {
+        id: 'asg-' + Date.now(),
+        title,
+        subject,
+        dueDate: dueIso,
+        priority,
+        completed: false,
+      };
+      state.assignments.push(newAsg);
+      showToast(`New assignment "${title}" added! Don't forget it dY'?`, 'success');
+    }
+
+    saveState();
+    closeModal('modal-assignment');
+    renderAssignments();
+    renderDashboard();
+
